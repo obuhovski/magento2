@@ -1,15 +1,16 @@
 <?php
 namespace Ewave\BannerStaging\Model\Banner;
 
-use Magento\Cms\Model\Page\DataProvider as CmsDataProvider;
-use Magento\Cms\Model\ResourceModel\Page\CollectionFactory;
 use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Staging\Model\Entity\DataProvider\MetadataProvider;
+use Magento\Banner\Model\ResourceModel\Banner\CollectionFactory;
+use Magento\Framework\App\RequestInterface;
+use Magento\Banner\Model\BannerFactory;
 
 /**
  * Class DataProvider
  */
-class DataProvider extends CmsDataProvider
+class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
 {
     /**
      * @param string $name

@@ -31,7 +31,7 @@
             <argument name="class" xsi:type="string">Ewave\BannerStaging\Model\Page\DataProvider</argument>
             <argument name="name" xsi:type="string">staging_banner_update_form_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">banner_id</argument>
-            <argument name="requestFieldName" xsi:type="string">banner_id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="submit_url" xsi:type="url" path="bannerstaging/banner/update_save"/>
@@ -350,17 +350,6 @@
                 <item name="label" xsi:type="string" translate="true">Search Engine Optimisation</item>
             </item>
         </argument>
-        <field name="identifier">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="dataType" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">URL Key</item>
-                    <item name="formElement" xsi:type="string">input</item>
-                    <item name="source" xsi:type="string">page</item>
-                    <item name="dataScope" xsi:type="string">identifier</item>
-                </item>
-            </argument>
-        </field>
         <field name="meta_keywords">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">

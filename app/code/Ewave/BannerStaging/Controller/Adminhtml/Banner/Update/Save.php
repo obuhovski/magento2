@@ -10,12 +10,12 @@ class Save extends Action
     /**
      * Entity request identifier
      */
-    const ENTITY_IDENTIFIER = 'page_id';
+    const ENTITY_IDENTIFIER = 'banner_id';
 
     /**
      * Entity name
      */
-    const ENTITY_NAME = 'page';
+    const ENTITY_NAME = 'banner';
 
     /**
      * @var StagingUpdateSave

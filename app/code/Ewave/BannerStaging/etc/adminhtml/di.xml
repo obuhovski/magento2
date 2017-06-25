@@ -21,7 +21,7 @@
             <argument name="entityColumn" xsi:type="string">banner_id</argument>
             <argument name="jsModalProvider" xsi:type="string">staging_banner_upcoming_form.staging_banner_upcoming_form.update_banner_form_modal</argument>
             <argument name="jsLoaderProvider" xsi:type="string">staging_banner_upcoming_form.staging_banner_upcoming_form.update_banner_form_modal.update_banner_form_loader</argument>
-            <argument name="urlProviderInterface" xsi:type="object">Ewave\Bannertaging\Ui\Component\Listing\Column\Banner\PreviewProvider</argument>
+            <argument name="urlProviderInterface" xsi:type="object">Ewave\BannerStaging\Ui\Component\Listing\Column\Banner\PreviewProvider</argument>
         </arguments>
     </virtualType>
     <virtualType name="stagingBannerDashboardGridActions" type="Magento\Staging\Ui\Component\Listing\Column\Entity\UpdateActions">

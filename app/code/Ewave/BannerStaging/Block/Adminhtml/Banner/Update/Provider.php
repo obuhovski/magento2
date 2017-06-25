@@ -60,7 +60,7 @@ class Provider implements EntityProviderInterface
      */
     protected function getBanner()
     {
-        return $this->bannerRepository->getById($this->request->getParam('banner_id'));
+        return $this->bannerRepository->getById($this->request->getParam('id'));
     }
 
     /**
@@ -86,15 +86,10 @@ class Provider implements EntityProviderInterface
      */
     public function getUrl($updateId)
     {
-        try {
             $oldUpdateId = $this->versionManager->getCurrentVersion()->getId();
             $this->versionManager->setCurrentVersionId($updateId);
             $url = $this->previewProvider->getUrl($this->getBanner()->getData());
             $this->versionManager->setCurrentVersionId($oldUpdateId);
             return $url;
-        } catch (NoSuchEntityException $e) {
-
-        }
-        return null;
     }
 }

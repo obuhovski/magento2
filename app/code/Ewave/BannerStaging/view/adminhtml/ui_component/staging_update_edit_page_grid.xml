@@ -49,13 +49,6 @@
                 </item>
             </argument>
         </column>
-        <column name="identifier">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="label" xsi:type="string" translate="true">URL Key</item>
-                </item>
-            </argument>
-        </column>
         <column name="page_layout">
             <argument name="data" xsi:type="array">
                 <item name="options" xsi:type="object">Magento\Cms\Model\Page\Source\PageLayout</item>

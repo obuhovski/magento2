@@ -13,7 +13,7 @@
                 <container name="staging.banner.upcoming.grid.container" htmlTag="div" htmlClass="block-schedule block">
                     <block class="Magento\Staging\Block\Adminhtml\Update\Entity\Toolbar" name="staging.banner.upcoming.grid.toolbar" template="Magento_Staging::schedule-title.phtml">
                         <arguments>
-                            <argument name="requestFieldName" xsi:type="string">banner_id</argument>
+                            <argument name="requestFieldName" xsi:type="string">id</argument>
                             <argument name="modalPath" xsi:type="string">staging_banner_upcoming_form.staging_banner_upcoming_form.update_banner_form_modal</argument>
                             <argument name="loaderPath" xsi:type="string">staging_banner_upcoming_form.staging_banner_upcoming_form.update_banner_form_modal.update_banner_form_loader</argument>
                         </arguments>

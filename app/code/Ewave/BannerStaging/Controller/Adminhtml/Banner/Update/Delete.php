@@ -10,12 +10,12 @@ class Delete extends Action
     /**
      * Entity request identifier
      */
-    const ENTITY_IDENTIFIER = 'page_id';
+    const ENTITY_IDENTIFIER = 'banner_id';
 
     /**
      * Entity name
      */
-    const ENTITY_NAME = 'page';
+    const ENTITY_NAME = 'banner';
 
     /**
      * @var StagingUpdateDelete
@@ -40,7 +40,7 @@ class Delete extends Action
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magento_Staging::staging')
-        && $this->_authorization->isAllowed('Magento_Cms::save');
+        && $this->_authorization->isAllowed('Magento_Banner::save');
     }
 
     /**

@@ -2,14 +2,43 @@
 
 namespace Ewave\BannerStaging\Model\Banner\Identifier;
 
-use Magento\Cms\Model\Page;
-use Magento\Cms\Model\Page\DataProvider as CmsDataProvider;
+use Magento\Banner\Model\ResourceModel\Banner\CollectionFactory;
+use Magento\Framework\App\RequestInterface;
+use Magento\Banner\Model\BannerFactory;
+use \Magento\Ui\DataProvider\AbstractDataProvider as BannerDataProvider;
 
 /**
  * Class DataProvider
  */
-class DataProvider extends CmsDataProvider
+class DataProvider extends BannerDataProvider
 {
+
+    /**
+     * @param string $name
+     * @param string $primaryFieldName
+     * @param string $requestFieldName
+     * @param CollectionFactory $collectionFactory
+     * @param RequestInterface $request
+     * @param BannerFactory $bannerFactory
+     * @param array $meta
+     * @param array $data
+     */
+    public function __construct(
+        $name,
+        $primaryFieldName,
+        $requestFieldName,
+        CollectionFactory $collectionFactory,
+        RequestInterface $request,
+        BannerFactory $bannerFactory,
+        array $meta = [],
+        array $data = []
+    ) {
+        parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
+        $this->request = $request;
+        $this->collection = $collectionFactory->create()->addStoresVisibility();
+        $this->bannerFactory = $bannerFactory;
+    }
+
     /**
      * Get data
      *
@@ -21,11 +50,10 @@ class DataProvider extends CmsDataProvider
             return $this->loadedData;
         }
         $items = $this->collection->getItems();
-        /** @var Page $page */
-        foreach ($items as $page) {
-            $this->loadedData[$page->getId()] = [
-                'page_id' => $page->getId(),
-                'title' => $page->getTitle(),
+        foreach ($items as $banner) {
+            $this->loadedData[$banner->getId()] = [
+                'banner_id' => $banner->getId(),
+                'title' => $banner->getName(),
             ];
         }
 

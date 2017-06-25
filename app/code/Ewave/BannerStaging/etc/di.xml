@@ -68,7 +68,7 @@
             <argument name="entityTable" xsi:type="string">magento_banner</argument>
             <argument name="entityColumn" xsi:type="string">banner_id</argument>
             <argument name="entityFieldsToSelect" xsi:type="array">
-                <item name="identifier" xsi:type="string">identifier</item>
+                <item name="name" xsi:type="string">name</item>
             </argument>
         </arguments>
     </virtualType>
@@ -106,6 +106,13 @@
         <arguments>
             <argument name="retrievers" xsi:type="array">
                 <item name="Ewave\BannerStaging\Api\Data\BannerInterface" xsi:type="object">Ewave\BannerStaging\Model\Banner\Retriever</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\EntityManager\HydratorPool">
+        <arguments>
+            <argument name="hydrators" xsi:type="array">
+                <item name="Ewave\BannerStaging\Api\Data\BannerInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
             </argument>
         </arguments>
     </type>
