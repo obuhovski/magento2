@@ -42,7 +42,7 @@ abstract class Banner extends \Magento\Backend\App\Action
     protected function _initBanner($idFieldName = 'banner_id')
     {
         $bannerId = (int)$this->getRequest()->getParam($idFieldName);
-        $model = $this->_objectManager->create('Magento\Banner\Model\Banner');
+        $model = $this->_objectManager->create('Ewave\BannerStaging\Api\Data\BannerInterface');
         if ($bannerId) {
             $model->load($bannerId);
         }

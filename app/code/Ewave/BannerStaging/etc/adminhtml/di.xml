@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="stagingBannerUpdateMetadataProvider" type="Magento\Staging\Model\Entity\DataProvider\MetadataProvider">
+        <arguments>
+            <argument name="requestFieldName" xsi:type="string">banner_id</argument>
+        </arguments>
+    </virtualType>
+    <type name="Ewave\BannerStaging\Model\Banner\DataProvider">
+        <plugin name="stagingBannerDataProvider" type="Magento\Staging\Model\Entity\DataProvider\DataProviderPlugin"/>
+        <arguments>
+            <argument name="metadataProvider" xsi:type="object">stagingBannerUpdateMetadataProvider</argument>
+        </arguments>
+    </type>
+    <type name="Ewave\BannerStaging\Model\Banner\Identifier\DataProvider">
+        <plugin name="stagingBannerDataProvider" type="Magento\Staging\Model\Entity\DataProvider\Identifier\DataProviderPlugin"/>
+    </type>
+    <virtualType name="stagingBannerUpcomingGridActions" type="Magento\Staging\Ui\Component\Listing\Column\Entity\Actions">
+        <arguments>
+            <argument name="entityIdentifier" xsi:type="string">banner_id</argument>
+            <argument name="entityColumn" xsi:type="string">banner_id</argument>
+            <argument name="jsModalProvider" xsi:type="string">staging_banner_upcoming_form.staging_banner_upcoming_form.update_banner_form_modal</argument>
+            <argument name="jsLoaderProvider" xsi:type="string">staging_banner_upcoming_form.staging_banner_upcoming_form.update_banner_form_modal.update_banner_form_loader</argument>
+            <argument name="urlProviderInterface" xsi:type="object">Ewave\Bannertaging\Ui\Component\Listing\Column\Banner\PreviewProvider</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="stagingBannerDashboardGridActions" type="Magento\Staging\Ui\Component\Listing\Column\Entity\UpdateActions">
+        <arguments>
+            <argument name="entityIdentifier" xsi:type="string">banner_id</argument>
+            <argument name="entityColumn" xsi:type="string">banner_id</argument>
+            <argument name="jsModalProvider" xsi:type="string">staging_update_edit.staging_update_edit.banner.update_banner_form_modal</argument>
+            <argument name="jsLoaderProvider" xsi:type="string">staging_update_edit.staging_update_edit.banner.update_banner_form_modal.update_banner_form_loader</argument>
+            <argument name="jsRemoveModalProvider" xsi:type="string">staging_update_edit.staging_update_edit.banner.update_remove_banner_form_modal</argument>
+            <argument name="jsRemoveModalLoaderProvider" xsi:type="string">staging_update_edit.staging_update_edit.banner.update_remove_banner_form_modal.update_remove_form_loader</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="stagingBannerUpdateCancelButton" type="Magento\Staging\Block\Adminhtml\Update\Entity\CancelButton">
+        <arguments>
+            <argument name="jsUpdateModal" xsi:type="string">index=update_banner_form_modal</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="stagingBannerRemoveUpdateCancelButton" type="Magento\Staging\Block\Adminhtml\Update\Entity\CancelButton">
+        <arguments>
+            <argument name="jsUpdateModal" xsi:type="string">index=update_remove_banner_form_modal</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="stagingBannerUpdatePreviewButton" type="Magento\Staging\Block\Adminhtml\Update\Entity\PreviewButton">
+        <arguments>
+            <argument name="entityProvider" xsi:type="object">Ewave\BannerStaging\Block\Adminhtml\Banner\Update\Provider</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="stagingBannerUpdateRemoveButton" type="Magento\Staging\Block\Adminhtml\Update\Entity\RemoveButton">
+        <arguments>
+            <argument name="entityProvider" xsi:type="object">Ewave\BannerStaging\Block\Adminhtml\Banner\Update\Provider</argument>
+            <argument name="entityIdentifier" xsi:type="string">banner_id</argument>
+            <argument name="jsRemoveModal" xsi:type="string">staging_banner_update_form.staging_banner_update_form.update_remove_banner_form_modal</argument>
+            <argument name="jsRemoveLoader" xsi:type="string">staging_banner_update_form.staging_banner_update_form.update_remove_banner_form_modal.update_remove_banner_form_loader</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Ewave\BannerStaging\Block\Adminhtml\Banner\Update\Upcoming" type="Magento\Staging\Block\Adminhtml\Update\Upcoming">
+        <arguments>
+            <argument name="entityProvider" xsi:type="object">Ewave\BannerStaging\Block\Adminhtml\Banner\Update\Provider</argument>
+        </arguments>
+    </virtualType>
+    <type name="Ewave\BannerStaging\Ui\Component\Listing\Column\Banner\PreviewProvider">
+        <arguments>
+            <argument name="frontendUrlBuilder" xsi:type="object">Magento\Framework\Url</argument>
+        </arguments>
+    </type>
+    <type name="Ewave\BannerStaging\Block\Adminhtml\Banner\Update\Provider">
+        <arguments>
+            <argument name="previewProvider" xsi:type="object">Ewave\BannerStaging\Ui\Component\Listing\Column\Banner\PreviewProvider</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Banner\Controller\Adminhtml\Banner\Save">
+        <plugin name="staging_banner_save" type="Ewave\BannerStaging\Controller\Adminhtml\Banner\Save\Plugin" />
+    </type>
+
+    <type name="Magento\Staging\Model\Entity\Update\Action\Pool">
+        <arguments>
+            <argument name="actions" xsi:type="array">
+                <item name="Ewave\BannerStaging\Api\Data\BannerInterface" xsi:type="array">
+                    <item name="save" xsi:type="array">
+                        <item name="save" xsi:type="string">bannerUpdateSaveSaveAction</item>
+                        <item name="assign" xsi:type="string">bannerUpdateSaveAssignAction</item>
+                    </item>
+                    <item name="delete" xsi:type="array">
+                        <item name="save" xsi:type="string">bannerUpdateDeleteSaveAction</item>
+                        <item name="assign" xsi:type="string">bannerUpdateDeleteAssignAction</item>
+                        <item name="remove" xsi:type="string">bannerUpdateDeleteRemoveAction</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <!-- Banner save controller -->
+    <virtualType name="bannerHydrator" type="Ewave\BannerStaging\Model\Banner\Hydrator">
+        <arguments>
+            <argument name="entityRetriever" xsi:type="object">Ewave\BannerStaging\Model\Banner\Retriever</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="bannerUpdateSaveSaveAction" type="Magento\Staging\Model\Entity\Update\Action\Save\SaveAction">
+        <arguments>
+            <argument name="entityHydrator" xsi:type="object">bannerHydrator</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="bannerUpdateSaveAssignAction" type="Magento\Staging\Model\Entity\Update\Action\Save\AssignAction">
+        <arguments>
+            <argument name="entityHydrator" xsi:type="object">bannerHydrator</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="bannerUpdateDeleteSaveAction" type="Magento\Staging\Model\Entity\Update\Action\Delete\SaveAction">
+        <arguments>
+            <argument name="entityRetriever" xsi:type="object">Ewave\BannerStaging\Model\Banner\Retriever</argument>
+            <argument name="entityName" xsi:type="string">Ewave\BannerStaging\Api\Data\BannerInterface</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="bannerUpdateDeleteAssignAction" type="Magento\Staging\Model\Entity\Update\Action\Delete\AssignAction">
+        <arguments>
+            <argument name="entityRetriever" xsi:type="object">Ewave\BannerStaging\Model\Banner\Retriever</argument>
+            <argument name="entityName" xsi:type="string">MEwave\BannerStaging\Api\Data\BannerInterface</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="bannerUpdateDeleteRemoveAction" type="Magento\Staging\Model\Entity\Update\Action\Delete\RemoveAction">
+        <arguments>
+            <argument name="entityRetriever" xsi:type="object">Ewave\BannerStaging\Model\Banner\Retriever</argument>
+            <argument name="entityName" xsi:type="string">Ewave\BannerStaging\Api\Data\BannerInterface</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="bannerUpdateSave" type="Magento\Staging\Model\Entity\Update\Save">
+        <arguments>
+            <argument name="entityName" xsi:type="string">Ewave\BannerStaging\Api\Data\BannerInterface</argument>
+        </arguments>
+    </virtualType>
+    <type name="Ewave\BannerStaging\Controller\Adminhtml\Banner\Update\Save">
+        <plugin name="staging_banner_update_save" type="Ewave\BannerStaging\Controller\Adminhtml\Banner\Update\Save\Plugin" />
+        <arguments>
+            <argument name="stagingUpdateSave" xsi:type="object">bannerUpdateSave</argument>
+        </arguments>
+    </type>
+
+    <!-- Banner delete controller -->
+    <type name="Ewave\BannerStaging\Controller\Adminhtml\Banner\Update\Delete">
+        <arguments>
+            <argument name="stagingUpdateDelete" xsi:type="object">bannerUpdateDelete</argument>
+        </arguments>
+    </type>
+    <virtualType name="bannerUpdateDelete" type="Magento\Staging\Model\Entity\Update\Delete">
+        <arguments>
+            <argument name="entityName" xsi:type="string">\Ewave\BannerStaging\Api\Data\BannerInterface</argument>
+        </arguments>
+    </virtualType>
+</config>

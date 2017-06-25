@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="styles"/>
+    <body>
+        <referenceContainer name="page.content">
+            <block class="Ewave\BannerStaging\Block\Adminhtml\Banner\Update\Upcoming" name="staging.banner.upcoming.grid.block" before="-">
+                <container name="staging.banner.upcoming.grid.container" htmlTag="div" htmlClass="block-schedule block">
+                    <block class="Magento\Staging\Block\Adminhtml\Update\Entity\Toolbar" name="staging.banner.upcoming.grid.toolbar" template="Magento_Staging::schedule-title.phtml">
+                        <arguments>
+                            <argument name="requestFieldName" xsi:type="string">banner_id</argument>
+                            <argument name="modalPath" xsi:type="string">staging_banner_upcoming_form.staging_banner_upcoming_form.update_banner_form_modal</argument>
+                            <argument name="loaderPath" xsi:type="string">staging_banner_upcoming_form.staging_banner_upcoming_form.update_banner_form_modal.update_banner_form_loader</argument>
+                        </arguments>
+                    </block>
+                    <uiComponent name="staging_banner_upcoming_form"/>
+                </container>
+            </block>
+        </referenceContainer>
+    </body>
+</page>
