@@ -9,7 +9,7 @@
     <fieldset name="banner" class="Magento\Staging\Ui\Component\Form\Fieldset">
         <argument name="data" xsi:type="array">
             <item name="config" xsi:type="array">
-                <item name="label" xsi:type="string" translate="true">CMS Pages</item>
+                <item name="label" xsi:type="string" translate="true">Banners</item>
                 <item name="sortOrder" xsi:type="number">20</item>
                 <item name="collapsible" xsi:type="boolean">true</item>
             </item>
@@ -28,7 +28,7 @@
                         </item>
                         <item name="externalProvider" xsi:type="string">${ $.ns }.staging_banner_update_form_data_source</item>
                         <item name="formSubmitType" xsi:type="string">ajax</item>
-                        <item name="upcomingListingProvider" xsi:type="string">staging_update_edit_page_grid</item>
+                        <item name="upcomingListingProvider" xsi:type="string">staging_update_edit_banner_grid</item>
                         <item name="removeModalProvider" xsi:type="string">${ $.ns}.${ $.ns}.update_remove_banner_form_modal</item>
                         <item name="removeResponseProvider" xsi:type="string">${ $.removeModalProvider }.update_remove_banner_form_loader:responseData</item>
                         <item name="modalTitleProvider" xsi:type="string">${ $.externalProvider }:data.title</item>
@@ -41,7 +41,7 @@
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="options" xsi:type="array">
-                        <item name="title" xsi:type="string" translate="true">Remove CMS Page from Campaign</item>
+                        <item name="title" xsi:type="string" translate="true">Remove Banner from Campaign</item>
                     </item>
                 </item>
             </argument>
@@ -58,17 +58,17 @@
                         </item>
                         <item name="externalProvider" xsi:type="string">${ $.ns }.staging_banner_update_remove_form_data_source</item>
                         <item name="formSubmitType" xsi:type="string">ajax</item>
-                        <item name="upcomingListingProvider" xsi:type="string">staging_update_edit_page_grid</item>
+                        <item name="upcomingListingProvider" xsi:type="string">staging_update_edit_banner_grid</item>
                     </item>
                 </argument>
             </insertForm>
         </modal>
-        <insertListing name="staging_update_edit_page_grid">
+        <insertListing name="staging_update_edit_banner_grid">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="autoRender" xsi:type="boolean">true</item>
-                    <item name="ns" xsi:type="string">staging_update_edit_page_grid</item>
-                    <item name="externalProvider" xsi:type="string">${ $.ns }.staging_update_edit_page_grid_data_source</item>
+                    <item name="ns" xsi:type="string">staging_update_edit_banner_grid</item>
+                    <item name="externalProvider" xsi:type="string">${ $.ns }.staging_update_edit_banner_grid_data_source</item>
                     <item name="imports" xsi:type="array">
                         <item name="updateId" xsi:type="string">${ $.provider }:data.general.id</item>
                     </item>

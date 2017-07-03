@@ -30,27 +30,20 @@ class Provider implements EntityProviderInterface
      */
     protected $versionManager;
 
-    /**
-     * @var UrlProviderInterface
-     */
-    protected $previewProvider;
 
     /**
      * @param RequestInterface $request
      * @param BannerRepositoryInterface $bannerRepository
      * @param VersionManager $versionManager
-     * @param UrlProviderInterface $previewProvider
      */
     public function __construct(
         RequestInterface $request,
         BannerRepositoryInterface $bannerRepository,
-        VersionManager $versionManager,
-        UrlProviderInterface $previewProvider
+        VersionManager $versionManager
     ) {
         $this->request = $request;
         $this->bannerRepository = $bannerRepository;
         $this->versionManager = $versionManager;
-        $this->previewProvider = $previewProvider;
     }
 
     /**
@@ -60,7 +53,8 @@ class Provider implements EntityProviderInterface
      */
     protected function getBanner()
     {
-        return $this->bannerRepository->getById($this->request->getParam('id'));
+        $id = $this->request->getParam('id') ?: $this->request->getParam('banner_id');
+        return $this->bannerRepository->getById($id);
     }
 
     /**
@@ -86,10 +80,6 @@ class Provider implements EntityProviderInterface
      */
     public function getUrl($updateId)
     {
-            $oldUpdateId = $this->versionManager->getCurrentVersion()->getId();
-            $this->versionManager->setCurrentVersionId($updateId);
-            $url = $this->previewProvider->getUrl($this->getBanner()->getData());
-            $this->versionManager->setCurrentVersionId($oldUpdateId);
-            return $url;
+        return null;
     }
 }

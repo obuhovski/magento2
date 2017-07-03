@@ -3,59 +3,60 @@
 namespace Ewave\BannerStaging\Api;
 
 use Ewave\BannerStaging\Api\Data\BannerInterface;
+use Ewave\BannerStaging\Api\Data\BannerSearchResultsInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Model\AbstractModel;
 
 /**
- * CMS page CRUD interface.
+ * Banner CRUD interface.
  * @api
  */
 interface BannerRepositoryInterface
 {
     /**
-     * Save page.
+     * Save banner.
      *
-     * @param \Ewave\BannerStaging\Api\Data\BannerInterface $page
+     * @param \Ewave\BannerStaging\Api\Data\BannerInterface $banner
      * @return BannerInterface
      * @throws LocalizedException
      */
-    public function save(\Ewave\BannerStaging\Api\Data\BannerInterface $page);
+    public function save(\Ewave\BannerStaging\Api\Data\BannerInterface $banner);
 
     /**
-     * Retrieve page.
+     * Retrieve banner.
      *
-     * @param int $pageId
+     * @param int $bannerId
      * @return BannerInterface
      * @throws LocalizedException
      */
-    public function getById($pageId);
+    public function getById($bannerId);
 
     /**
-     * Retrieve pages matching the specified criteria.
+     * Retrieve banners matching the specified criteria.
      *
      * @param SearchCriteriaInterface $searchCriteria
-     * @return PageSearchResultsInterface
+     * @return BannerSearchResultsInterface
      * @throws LocalizedException
      */
     public function getList(SearchCriteriaInterface $searchCriteria);
 
     /**
-     * Delete page.
+     * Delete banner.
      *
-     * @param \Ewave\BannerStaging\Api\Data\BannerInterface $page
+     * @param \Ewave\BannerStaging\Api\Data\BannerInterface $banner
      * @return bool true on success
      * @throws LocalizedException
      */
-    public function delete(\Ewave\BannerStaging\Api\Data\BannerInterface $page);
+    public function delete(\Ewave\BannerStaging\Api\Data\BannerInterface $banner);
 
     /**
-     * Delete page by ID.
+     * Delete banner by ID.
      *
-     * @param int $pageId
+     * @param int $bannerId
      * @return bool true on success
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws LocalizedException
      */
-    public function deleteById($pageId);
+    public function deleteById($bannerId);
 }

@@ -9,7 +9,7 @@ use Magento\Framework\Indexer\CacheContext;
 use Magento\Staging\Model\StagingApplierInterface;
 
 /**
- * Class PageApplier
+ * Class BannerApplier
  */
 class BannerApplier implements StagingApplierInterface
 {
@@ -17,7 +17,7 @@ class BannerApplier implements StagingApplierInterface
     private $cacheContext;
 
     /**
-     * PageStagingApplier constructor
+     * BannerApplier constructor
      * @param CacheContext $cacheContext
      */
     public function __construct(
@@ -32,7 +32,7 @@ class BannerApplier implements StagingApplierInterface
     public function execute(array $entityIds)
     {
         if ($entityIds) {
-            $this->cacheContext->registerEntities(\Magento\Cms\Model\Page::CACHE_TAG, $entityIds);
+            $this->cacheContext->registerEntities('magento_banner', $entityIds);
         }
     }
 }

@@ -3,18 +3,24 @@
 namespace Ewave\BannerStaging\Api\Data;
 
 /**
- * CMS page interface.
+ * Banner interface.
  * @api
  */
 interface BannerInterface
 {
-
     /**
      * Get ID
      *
      * @return int|null
      */
     public function getId();
+
+    /**
+     * Get row ID
+     *
+     * @return int|null
+     */
+    public function getRowId();
 
     /**
      * @return string
@@ -47,43 +53,57 @@ interface BannerInterface
     public function getUpdatedIn();
 
     /**
+     * @param $id
      * @return $this
      */
     public function setId($id);
 
 
     /**
+     * @param $name
      * @return $this
      */
     public function setName($name);
 
     /**
+     * @param $isEnabled
      * @return $this
      */
     public function setIsEnabled($isEnabled);
 
     /**
+     * @param $isEnabled
      * @return $this
      */
     public function setIsGaEnabled($isEnabled);
 
     /**
+     * @param $gaCreative
      * @return $this
      */
     public function setGaCreative($gaCreative);
 
     /**
+     * @param $types
      * @return $this
      */
     public function setTypes($types);
 
     /**
+     * @param $createdIn
      * @return $this
      */
     public function setCreatedIn($createdIn);
 
     /**
+     * @param $updatedIn
      * @return $this
      */
     public function setUpdatedIn($updatedIn);
+
+    /**
+     * @param int
+     * @return $this
+     */
+    public function setRowId($rowId);
 }

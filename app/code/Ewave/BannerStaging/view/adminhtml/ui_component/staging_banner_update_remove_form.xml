@@ -26,10 +26,10 @@
     </argument>
     <dataSource name="staging_banner_update_remove_form_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">Ewave\BannerStaging\Model\Page\Identifier\DataProvider</argument>
+            <argument name="class" xsi:type="string">Ewave\BannerStaging\Model\Banner\Identifier\DataProvider</argument>
             <argument name="name" xsi:type="string">staging_banner_update_remove_form_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">banner_id</argument>
-            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="requestFieldName" xsi:type="string">banner_id</argument>
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="submit_url" xsi:type="url" path="bannerstaging/banner/update_delete"/>
@@ -208,11 +208,11 @@
                     <item name="externalData" xsi:type="string">id</item>
                     <item name="imports" xsi:type="array">
                         <item name="visible" xsi:type="string">${ $.parentName }.staging_move_mode:checked</item>
-                        <item name="pageId" xsi:type="string">${ $.provider }:data.banner_id</item>
+                        <item name="bannerId" xsi:type="string">${ $.provider }:data.banner_id</item>
                         <item name="update_id" xsi:type="string">${ $.provider }:data.update_id</item>
                     </item>
                     <item name="exports" xsi:type="array">
-                        <item name="pageId" xsi:type="string">${ $.externalProvider }:params.banner_id</item>
+                        <item name="bannerId" xsi:type="string">${ $.externalProvider }:params.banner_id</item>
                         <item name="update_id" xsi:type="string">${ $.externalProvider  }:params.update_id</item>
                     </item>
                 </item>
@@ -251,7 +251,7 @@
                     <item name="imports" xsi:type="array">
                         <item name="visible" xsi:type="string">${ $.parentName }.staging_delete_mode:checked</item>
                     </item>
-                    <item name="content" xsi:type="string" translate="true">Deleting the update will remove the page from this campaign and all scheduled changes will be lost.</item>
+                    <item name="content" xsi:type="string" translate="true">Deleting the update will remove the banner from this campaign and all scheduled changes will be lost.</item>
                 </item>
             </argument>
         </container>

@@ -29,12 +29,12 @@ class Plugin
     {
         try {
             $customTheme = $subject->getRequest()->getPostValue('custom_theme');
-            if ($this->isValidCustomTheme($customTheme)) {
-                $date = new \DateTime(null, new \DateTimeZone('UTC'));
-                $subject->getRequest()->setPostValue('custom_theme_from', $date->format('m/d/Y'));
-            } else {
-                $subject->getRequest()->setPostValue('custom_theme_from', null);
-            }
+//            if ($this->isValidCustomTheme($customTheme)) {
+//                $date = new \DateTime(null, new \DateTimeZone('UTC'));
+//                $subject->getRequest()->setPostValue('custom_theme_from', $date->format('m/d/Y'));
+//            } else {
+//                $subject->getRequest()->setPostValue('custom_theme_from', null);
+//            }
         } catch (\Exception $e) {
             $this->logger->error($e);
         }

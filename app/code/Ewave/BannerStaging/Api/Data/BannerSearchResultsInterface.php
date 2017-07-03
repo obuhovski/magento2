@@ -6,20 +6,20 @@ use Ewave\BannerStaging\Api\Data\BannerInterface;
 use Magento\Framework\Api\SearchResultsInterface;
 
 /**
- * Interface for cms page search results.
+ * Interface for banner search results.
  * @api
  */
 interface BannerSearchResultsInterface extends SearchResultsInterface
 {
     /**
-     * Get pages list.
+     * Get banners list.
      *
      * @return BannerInterface[]
      */
     public function getItems();
 
     /**
-     * Set pages list.
+     * Set banners list.
      *
      * @param BannerInterface[] $items
      * @return $this

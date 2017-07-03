@@ -1,14 +1,14 @@
 <?php
 namespace Ewave\BannerStaging\Model;
 
-use Magento\Cms\Api\Data\PageInterface;
-use Magento\CmsStaging\Api\BannerStagingInterface;
+use Ewave\BannerStaging\Api\Data\BannerInterface;
+use Ewave\BannerStaging\Api\BannerStagingInterface;
 use Magento\Framework\EntityManager\EntityManager;
 use Magento\Framework\Exception\ValidatorException;
 use Magento\Staging\Model\ResourceModel\Db\CampaignValidator;
 
 /**
- * Class PageStaging
+ * Class BannerStaging
  */
 class BannerStaging implements BannerStagingInterface
 {
@@ -23,7 +23,7 @@ class BannerStaging implements BannerStagingInterface
     private $campaignValidator;
 
     /**
-     * PageStaging constructor.
+     * BannerStaging constructor.
      *
      * @param EntityManager $entityManager
      * @param CampaignValidator $campaignValidator
@@ -37,16 +37,16 @@ class BannerStaging implements BannerStagingInterface
     }
 
     /**
-     * @param PageInterface $page
+     * @param BannerInterface $banner
      * @param string $version
      * @param array $arguments
      * @return bool
      * @throws \Exception
      */
-    public function schedule(\Magento\Cms\Api\Data\PageInterface $page, $version, $arguments = [])
+    public function schedule(BannerInterface $banner, $version, $arguments = [])
     {
         $previous = isset($arguments['origin_in']) ? $arguments['origin_in'] : null;
-        if (!$this->campaignValidator->canBeScheduled($page, $version, $previous)) {
+        if (!$this->campaignValidator->canBeScheduled($banner, $version, $previous)) {
             throw new ValidatorException(
                 __(
                     'Future Update in this time range already exists. '
@@ -55,18 +55,18 @@ class BannerStaging implements BannerStagingInterface
             );
         }
         $arguments['created_in'] = $version;
-        return (bool)$this->entityManager->save($page, $arguments);
+        return (bool)$this->entityManager->save($banner, $arguments);
     }
 
     /**
-     * @param PageInterface $page
+     * @param BannerInterface $banner
      * @param string $version
      * @return bool
      */
-    public function unschedule(\Magento\Cms\Api\Data\PageInterface $page, $version)
+    public function unschedule(BannerInterface $banner, $version)
     {
         return (bool)$this->entityManager->delete(
-            $page,
+            $banner,
             [
                 'created_in' => $version
             ]

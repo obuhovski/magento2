@@ -6,13 +6,22 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\BannerCustomerSegment\Model\ResourceModel\BannerSegmentLink" type="Ewave\BannerStaging\Model\ResourceModel\BannerSegmentLink" />
     <preference for="Magento\Banner\Model\ResourceModel\Banner" type="Ewave\BannerStaging\Model\ResourceModel\Banner" />
+    <preference for="Magento\Banner\Model\ResourceModel\Banner\Collection" type="Ewave\BannerStaging\Model\ResourceModel\Banner\Collection" />
+    <preference for="Magento\Banner\Model\ResourceModel\Catalogrule\Collection" type="Ewave\BannerStaging\Model\ResourceModel\Catalogrule\Collection" />
+    <preference for="Magento\Banner\Model\ResourceModel\Salesrule\Collection" type="Ewave\BannerStaging\Model\ResourceModel\Salesrule\Collection" />
+    <preference for="Magento\Banner\Model\Banner\Data" type="Ewave\BannerStaging\Model\Banner\Data" />
+
+    <preference for="Magento\Banner\Controller\Adminhtml\Banner\Save" type="Ewave\BannerStaging\Controller\Adminhtml\Banner\Save" />
     <preference for="Magento\Banner\Model\Banner" type="Ewave\BannerStaging\Model\Banner" />
+
 
     <preference for="Ewave\BannerStaging\Api\Data\BannerSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
     <preference for="Ewave\BannerStaging\Api\Data\BannerInterface" type="Magento\Banner\Model\Banner" />
     <preference for="Ewave\BannerStaging\Api\BannerStagingInterface" type="Ewave\BannerStaging\Model\BannerStaging" />
     <preference for="Ewave\BannerStaging\Api\BannerRepositoryInterface" type="Ewave\BannerStaging\Model\BannerRepository" />
+
     <type name="Magento\Staging\Model\StagingList">
         <arguments>
             <argument name="entities" xsi:type="array">
@@ -67,12 +76,9 @@
             <argument name="entityRequestName" xsi:type="string">banner_id</argument>
             <argument name="entityTable" xsi:type="string">magento_banner</argument>
             <argument name="entityColumn" xsi:type="string">banner_id</argument>
-            <argument name="entityFieldsToSelect" xsi:type="array">
-                <item name="name" xsi:type="string">name</item>
-            </argument>
         </arguments>
     </virtualType>
-    <virtualType name="stagingBannerUpdateSelectResult" type="\Magento\Staging\Model\Entity\Update\Select\SearchResult">
+    <virtualType name="stagingBannerUpdateSelectResult" type="Magento\Staging\Model\Entity\Update\Select\SearchResult">
         <arguments>
             <argument name="entityRequestName" xsi:type="string">banner_id</argument>
             <argument name="entityTable" xsi:type="string">magento_banner</argument>

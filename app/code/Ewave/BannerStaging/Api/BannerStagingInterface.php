@@ -3,23 +3,23 @@ namespace Ewave\BannerStaging\Api;
 use Ewave\BannerStaging\Api\Data\BannerInterface;
 
 /**
- * Interface PageStagingInterface
+ * Interface BannerStagingInterface
  * @api
  */
 interface BannerStagingInterface
 {
     /**
-     * @param BannerInterface $page
+     * @param BannerInterface $banner
      * @param string $version
      * @param array $arguments
      * @return bool
      */
-    public function schedule(BannerInterface $page, $version, $arguments = []);
+    public function schedule(BannerInterface $banner, $version, $arguments = []);
 
     /**
-     * @param BannerInterface $page
+     * @param BannerInterface $banner
      * @param string $version
      * @return bool
      */
-    public function unschedule(BannerInterface $page, $version);
+    public function unschedule(BannerInterface $banner, $version);
 }

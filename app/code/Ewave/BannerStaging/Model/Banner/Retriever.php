@@ -1,35 +1,36 @@
 <?php
 namespace Ewave\BannerStaging\Model\Banner;
 
-use Magento\Cms\Model\Page;
-use Magento\Cms\Model\PageFactory;
+use Ewave\BannerStaging\Model\Banner;
+use Ewave\BannerStaging\Model\BannerFactory;
 use Magento\Framework\DataObject;
 use Magento\Staging\Model\Entity\RetrieverInterface;
 
 class Retriever implements RetrieverInterface
 {
     /**
-     * @var PageFactory
+     * @var BannerFactory
      */
-    protected $pageFactory;
+    protected $bannerFactory;
 
     /**
-     * @param PageFactory $pageFactory
+     * Retriever constructor.
+     * @param BannerFactory $bannerFactory
      */
     public function __construct(
-        PageFactory $pageFactory
+        BannerFactory $bannerFactory
     ) {
-        $this->pageFactory = $pageFactory;
+        $this->bannerFactory = $bannerFactory;
     }
 
     /**
      * @param string $entityId
-     * @return Page
+     * @return Banner
      */
     public function getEntity($entityId)
     {
-        /** @var Page $entity */
-        $entity = $this->pageFactory->create();
+        /** @var Banner $entity */
+        $entity = $this->bannerFactory->create();
         $entity->load($entityId);
         return $entity;
     }

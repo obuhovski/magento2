@@ -2,13 +2,12 @@
 
 namespace Ewave\BannerStaging\Model\Banner;
 
+use Ewave\BannerStaging\Api\Data\BannerInterface;
+use Ewave\BannerStaging\Model\Banner;
 use Magento\Staging\Model\Entity\HydratorInterface;
 use Magento\Backend\App\Action\Context;
-use Magento\Cms\Controller\Adminhtml\Page\PostDataProcessor;
-use Magento\Cms\Model\Page;
 use Magento\Staging\Model\Entity\RetrieverInterface;
 use Magento\Framework\EntityManager\MetadataPool;
-use Magento\Cms\Api\Data\PageInterface;
 
 class Hydrator implements HydratorInterface
 {
@@ -23,29 +22,21 @@ class Hydrator implements HydratorInterface
     private $metadataPool;
 
     /**
-     * @var PostDataProcessor
-     */
-    protected $postDataProcessor;
-
-    /**
      * @var RetrieverInterface
      */
     protected $entityRetriever;
 
     /**
      * @param Context $context
-     * @param PostDataProcessor $postDataProcessor
      * @param RetrieverInterface $entityRetriever
      * @param MetadataPool $metadataPool
      */
     public function __construct(
         Context $context,
-        PostDataProcessor $postDataProcessor,
         RetrieverInterface $entityRetriever,
         MetadataPool $metadataPool
     ) {
         $this->context = $context;
-        $this->postDataProcessor = $postDataProcessor;
         $this->entityRetriever = $entityRetriever;
         $this->metadataPool = $metadataPool;
     }
@@ -55,20 +46,19 @@ class Hydrator implements HydratorInterface
      */
     public function hydrate(array $data)
     {
-        $data = $this->postDataProcessor->filter($data);
-        if (isset($data['is_active']) && $data['is_active'] === 'true') {
-            $data['is_active'] = Page::STATUS_ENABLED;
+        if (isset($data['is_enabled']) && $data['is_enabled'] === 'true') {
+            $data['is_enabled'] = Banner::STATUS_ENABLED;
         }
-        if (empty($data['page_id'])) {
-            $data['page_id'] = null;
+        if (empty($data['banner_id'])) {
+            $data['banner_id'] = null;
         }
 
         $model = null;
-        if (isset($data['page_id'])) {
-            /** @var Page $model */
-            $model = $this->entityRetriever->getEntity($data['page_id']);
+        if (isset($data['banner_id'])) {
+            /** @var Banner $model */
+            $model = $this->entityRetriever->getEntity($data['banner_id']);
             if ($model) {
-                $entityMetadata = $this->metadataPool->getMetadata(PageInterface::class);
+                $entityMetadata = $this->metadataPool->getMetadata(BannerInterface::class);
                 $linkField = $entityMetadata->getLinkField();
                 $data[$linkField] = $model->getData($linkField);
                 $data['created_in'] = $model->getCreatedIn();
@@ -78,13 +68,10 @@ class Hydrator implements HydratorInterface
         $model->setData($data);
 
         $this->context->getEventManager()->dispatch(
-            'cms_page_prepare_save',
-            ['page' => $model, 'request' => $this->context->getRequest()]
+            'banner_prepare_save',
+            ['banner' => $model, 'request' => $this->context->getRequest()]
         );
 
-        if ($this->postDataProcessor->validate($data)) {
-            return $model;
-        }
-        return false;
+        return $model;
     }
 }

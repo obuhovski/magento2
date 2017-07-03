@@ -2,7 +2,7 @@
 
 namespace Ewave\BannerStaging\Controller\Adminhtml\Banner\Update\Save;
 
-use Magento\CmsStaging\Controller\Adminhtml\Page\Update\Save;
+use Ewave\BannerStaging\Controller\Adminhtml\Banner\Update\Save;
 use Magento\Staging\Api\UpdateRepositoryInterface;
 use Psr\Log\LoggerInterface;
 
@@ -38,29 +38,29 @@ class Plugin
     {
         try {
             $customTheme = $subject->getRequest()->getPostValue('custom_theme');
-            if ($this->isValidCustomTheme($customTheme)) {
-                $staging = $subject->getRequest()->getPostValue('staging');
-                switch ($staging['mode']) {
-                    case 'assign':
-                        $update = $this->updateRepository->get($staging['select_id']);
-                        $startTime = $update->getStartTime();
-                        break;
-
-                    case 'save':
-                        $startTime = !empty($staging['start_time']) ? $staging['start_time'] : null;
-                        break;
-
-                    default:
-                        $startTime = false;
-                        break;
-                }
-                if ($startTime !== false) {
-                    $date = new \DateTime($startTime, new \DateTimeZone('UTC'));
-                    $subject->getRequest()->setPostValue('custom_theme_from', $date->format('m/d/Y'));
-                }
-            } else {
-                $subject->getRequest()->setPostValue('custom_theme_from', null);
-            }
+//            if ($this->isValidCustomTheme($customTheme)) {
+//                $staging = $subject->getRequest()->getPostValue('staging');
+//                switch ($staging['mode']) {
+//                    case 'assign':
+//                        $update = $this->updateRepository->get($staging['select_id']);
+//                        $startTime = $update->getStartTime();
+//                        break;
+//
+//                    case 'save':
+//                        $startTime = !empty($staging['start_time']) ? $staging['start_time'] : null;
+//                        break;
+//
+//                    default:
+//                        $startTime = false;
+//                        break;
+//                }
+//                if ($startTime !== false) {
+//                    $date = new \DateTime($startTime, new \DateTimeZone('UTC'));
+//                    $subject->getRequest()->setPostValue('custom_theme_from', $date->format('m/d/Y'));
+//                }
+//            } else {
+//                $subject->getRequest()->setPostValue('custom_theme_from', null);
+//            }
         } catch (\Exception $e) {
             $this->logger->error($e);
         }

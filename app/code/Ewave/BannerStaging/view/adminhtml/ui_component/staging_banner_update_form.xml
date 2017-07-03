@@ -28,7 +28,7 @@
     </argument>
     <dataSource name="staging_banner_update_form_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">Ewave\BannerStaging\Model\Page\DataProvider</argument>
+            <argument name="class" xsi:type="string">Ewave\BannerStaging\Model\Banner\DataProvider</argument>
             <argument name="name" xsi:type="string">staging_banner_update_form_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">banner_id</argument>
             <argument name="requestFieldName" xsi:type="string">id</argument>
@@ -48,7 +48,7 @@
         <argument name="data" xsi:type="array">
             <item name="config" xsi:type="array">
                 <item name="options" xsi:type="array">
-                    <item name="title" xsi:type="string" translate="true">Remove CMS page from Campaign</item>
+                    <item name="title" xsi:type="string" translate="true">Remove banner from Campaign</item>
                 </item>
             </item>
         </argument>
@@ -110,7 +110,6 @@
                         <item name="value" xsi:type="string">save</item>
                         <item name="checked" xsi:type="boolean">true</item>
                         <item name="dataScope" xsi:type="string">mode</item>
-                        <item name="component" xsi:type="string">Magento_Ui/js/form/element/single-checkbox</item>
                         <item name="additionalClasses" xsi:type="string">admin__field-collapsible</item>
                         <item name="validation" xsi:type="array">
                             <item name="required-entry" xsi:type="boolean">true</item>
@@ -216,7 +215,6 @@
                         <item name="prefer" xsi:type="string">radio</item>
                         <item name="value" xsi:type="string">assign</item>
                         <item name="dataScope" xsi:type="string">mode</item>
-                        <item name="component" xsi:type="string">Magento_Ui/js/form/element/single-checkbox</item>
                         <item name="additionalClasses" xsi:type="string">admin__field-collapsible</item>
                     </item>
                 </argument>
@@ -252,20 +250,20 @@
                         <item name="externalData" xsi:type="string">id</item>
                         <item name="imports" xsi:type="array">
                             <item name="visible" xsi:type="string">${ $.parentName}.staging_select_mode:checked</item>
-                            <item name="pageId" xsi:type="string">${ $.provider }:data.banner_id</item>
+                            <item name="bannerId" xsi:type="string">${ $.provider }:data.banner_id</item>
                         </item>
                         <item name="exports" xsi:type="array">
-                            <item name="pageId" xsi:type="string">${ $.externalProvider }:params.banner_id</item>
+                            <item name="bannerId" xsi:type="string">${ $.externalProvider }:params.banner_id</item>
                         </item>
                     </item>
                 </argument>
             </insertListing>
         </fieldset>
     </fieldset>
-    <fieldset name="general">
+    <fieldset name="properties">
         <argument name="data" xsi:type="array">
             <item name="config" xsi:type="array">
-                <item name="label" xsi:type="string" translate="true">General Information</item>
+                <item name="label" xsi:type="string" translate="true">Banner Properties</item>
             </item>
         </argument>
         <field name="banner_id">
@@ -274,21 +272,21 @@
                     <item name="visible" xsi:type="boolean">false</item>
                     <item name="dataType" xsi:type="string">text</item>
                     <item name="formElement" xsi:type="string">input</item>
-                    <item name="source" xsi:type="string">page</item>
+                    <item name="source" xsi:type="string">banner</item>
                     <item name="dataScope" xsi:type="string">banner_id</item>
                 </item>
             </argument>
         </field>
-        <field name="is_active">
+        <field name="is_enabled">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="dataType" xsi:type="string">boolean</item>
-                    <item name="label" xsi:type="string" translate="true">Enable Page</item>
+                    <item name="label" xsi:type="string" translate="true">Enable banner</item>
                     <item name="formElement" xsi:type="string">checkbox</item>
                     <item name="prefer" xsi:type="string">toggle</item>
-                    <item name="source" xsi:type="string">page</item>
+                    <item name="source" xsi:type="string">banner</item>
                     <item name="sortOrder" xsi:type="number">10</item>
-                    <item name="dataScope" xsi:type="string">is_active</item>
+                    <item name="dataScope" xsi:type="string">is_enabled</item>
                     <item name="valueMap" xsi:type="array">
                         <item name="true" xsi:type="number">1</item>
                         <item name="false" xsi:type="number">0</item>
@@ -297,22 +295,83 @@
                 </item>
             </argument>
         </field>
-        <field name="title">
+        <field name="applies_to">
             <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="array">
+                    <item name="0" xsi:type="array">
+                        <item name="value" xsi:type="number">1</item>
+                        <item name="label" xsi:type="string" translate="true">Any Banner Type</item>
+                    </item>
+                    <item name="1" xsi:type="array">
+                        <item name="value" xsi:type="number">0</item>
+                        <item name="label" xsi:type="string" translate="true">Specified Banner Types</item>
+                    </item>
+                </item>
                 <item name="config" xsi:type="array">
                     <item name="dataType" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">Page Title</item>
-                    <item name="formElement" xsi:type="string">input</item>
-                    <item name="source" xsi:type="string">page</item>
-                    <item name="sortOrder" xsi:type="number">20</item>
-                    <item name="dataScope" xsi:type="string">title</item>
-                    <item name="validation" xsi:type="array">
-                        <item name="required-entry" xsi:type="boolean">true</item>
+                    <item name="label" xsi:type="string" translate="true">Applies To</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">banner</item>
+                    <item name="dataScope" xsi:type="string">applies_to</item>
+                </item>
+            </argument>
+        </field>
+        <field name="specify_types">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Specify Types</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="formElement" xsi:type="string">multiselect</item>
+                    <item name="source" xsi:type="string">banner</item>
+                    <item name="dataScope" xsi:type="string">specify_types</item>
+                </item>
+                <item name="options" xsi:type="object">Magento\Banner\Model\Config</item>
+                <item name="imports" xsi:type="array">
+                    <item name="visible" xsi:type="string">${ $.parentName}.applies_to.value == 1</item>
+                </item>
+            </argument>
+        </field>
+        <field name="customer_segments">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="array">
+                    <item name="0" xsi:type="array">
+                        <item name="value" xsi:type="number">1</item>
+                        <item name="label" xsi:type="string" translate="true">All</item>
                     </item>
+                    <item name="1" xsi:type="array">
+                        <item name="value" xsi:type="number">0</item>
+                        <item name="label" xsi:type="string" translate="true">Specified</item>
+                    </item>
+                </item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Applies To</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">banner</item>
+                    <item name="dataScope" xsi:type="string">customer_segments</item>
+                </item>
+            </argument>
+        </field>
+        <field name="customer_segment_ids">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Customer Segments</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="formElement" xsi:type="string">multiselect</item>
+                    <item name="source" xsi:type="string">banner</item>
+                    <item name="dataScope" xsi:type="string">customer_segment_ids</item>
+                </item>
+                <item name="options" xsi:type="object">Magento\CustomerSegment\Model\ResourceModel\Segment\Collection</item>
+                <item name="imports" xsi:type="array">
+                    <item name="visible" xsi:type="string">${ $.parentName}.customer_segments.value == 1</item>
                 </item>
             </argument>
         </field>
     </fieldset>
+
+
+
+
     <fieldset name="content">
         <argument name="data" xsi:type="array">
             <item name="config" xsi:type="array">
@@ -320,125 +379,74 @@
                 <item name="label" xsi:type="string" translate="true">Content</item>
             </item>
         </argument>
-        <field name="content_heading">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="dataType" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">Content Heading</item>
-                    <item name="formElement" xsi:type="string">input</item>
-                    <item name="source" xsi:type="string">page</item>
-                    <item name="dataScope" xsi:type="string">content_heading</item>
-                </item>
-            </argument>
-        </field>
-        <field name="content">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="label" xsi:type="string"/>
-                    <item name="formElement" xsi:type="string">wysiwyg</item>
-                    <item name="source" xsi:type="string">page</item>
-                    <item name="wysiwyg" xsi:type="boolean">true</item>
-                    <item name="dataScope" xsi:type="string">content</item>
-                </item>
-            </argument>
-        </field>
+        <container name="banner_content" >
+            <htmlContent name="html_content">
+                <argument name="block" xsi:type="object">Ewave\BannerStaging\Block\Adminhtml\Banner\Content</argument>
+            </htmlContent>
+        </container>
     </fieldset>
-    <fieldset name="search_engine_optimisation">
+
+
+
+
+    <fieldset name="salesrules">
         <argument name="data" xsi:type="array">
             <item name="config" xsi:type="array">
                 <item name="collapsible" xsi:type="boolean">true</item>
-                <item name="label" xsi:type="string" translate="true">Search Engine Optimisation</item>
+                <item name="label" xsi:type="string" translate="true">Related Cart Price Rules</item>
             </item>
         </argument>
-        <field name="meta_keywords">
+        <insertListing name="related_banner_salesrules_grid">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="dataType" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">Meta Keywords</item>
-                    <item name="formElement" xsi:type="string">textarea</item>
-                    <item name="source" xsi:type="string">page</item>
-                    <item name="dataScope" xsi:type="string">meta_keywords</item>
-                </item>
-            </argument>
-        </field>
-        <field name="meta_description">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="dataType" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">Meta Description</item>
-                    <item name="formElement" xsi:type="string">textarea</item>
-                    <item name="source" xsi:type="string">page</item>
-                    <item name="dataScope" xsi:type="string">meta_description</item>
-                </item>
-            </argument>
-        </field>
-    </fieldset>
-    <fieldset name="websites">
-        <argument name="data" xsi:type="array">
-            <item name="config" xsi:type="array">
-                <item name="collapsible" xsi:type="boolean">true</item>
-                <item name="label" xsi:type="string" translate="true">Page in Websites</item>
-            </item>
-        </argument>
-        <field name="storeviews">
-            <argument name="data" xsi:type="array">
-                <item name="options" xsi:type="object">Magento\Cms\Ui\Component\Listing\Column\Cms\Options</item>
-                <item name="config" xsi:type="array">
-                    <item name="dataType" xsi:type="string">int</item>
-                    <item name="label" xsi:type="string" translate="true">Store View</item>
-                    <item name="formElement" xsi:type="string">multiselect</item>
-                    <item name="source" xsi:type="string">page</item>
-                    <item name="dataScope" xsi:type="string">store_id</item>
-                    <item name="default" xsi:type="string">0</item>
-                    <item name="validation" xsi:type="array">
-                        <item name="required-entry" xsi:type="boolean">true</item>
+                    <item name="autoRender" xsi:type="boolean">true</item>
+                    <item name="dataScope" xsi:type="string">related_banners</item>
+                    <item name="ns" xsi:type="string">related_banner_salesrules_grid</item>
+                    <item name="externalProvider" xsi:type="string">related_banner_salesrules_grid.related_banner_salesrules_grid_data_source</item>
+                    <item name="selectionsProvider" xsi:type="string">related_banner_salesrules_grid.related_banner_salesrules_grid.related_catalogrule_banners_columns.ids</item>
+                    <item name="dataLinks" xsi:type="array">
+                        <item name="imports" xsi:type="boolean">true</item>
+                        <item name="exports" xsi:type="boolean">false</item>
+                    </item>
+                    <item name="externalTransfer" xsi:type="boolean">true</item>
+                    <item name="imports" xsi:type="array">
+                        <item name="ruleId" xsi:type="string">${ $.provider }:data.rule_id</item>
+                    </item>
+                    <item name="exports" xsi:type="array">
+                        <item name="ruleId" xsi:type="string">${ $.externalProvider }:params.rule_id</item>
                     </item>
                 </item>
             </argument>
-        </field>
+        </insertListing>
     </fieldset>
-    <fieldset name="design">
+    <fieldset name="catalogrules">
         <argument name="data" xsi:type="array">
             <item name="config" xsi:type="array">
                 <item name="collapsible" xsi:type="boolean">true</item>
-                <item name="label" xsi:type="string" translate="true">Design</item>
+                <item name="label" xsi:type="string" translate="true">Related Catalog Price Rules</item>
             </item>
         </argument>
-        <field name="page_layout">
-            <argument name="data" xsi:type="array">
-                <item name="options" xsi:type="object">Magento\Cms\Model\Page\Source\PageLayout</item>
-                <item name="config" xsi:type="array">
-                    <item name="dataType" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">Layout</item>
-                    <item name="formElement" xsi:type="string">select</item>
-                    <item name="source" xsi:type="string">page</item>
-                    <item name="dataScope" xsi:type="string">page_layout</item>
-                </item>
-            </argument>
-        </field>
-        <field name="layout_update_xml">
+        <insertListing name="related_banner_catalogrules_grid">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="dataType" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">Layout Update XML</item>
-                    <item name="formElement" xsi:type="string">textarea</item>
-                    <item name="source" xsi:type="string">page</item>
-                    <item name="dataScope" xsi:type="string">layout_update_xml</item>
+                    <item name="autoRender" xsi:type="boolean">true</item>
+                    <item name="dataScope" xsi:type="string">related_banners</item>
+                    <item name="ns" xsi:type="string">related_banner_catalogrules_grid</item>
+                    <item name="externalProvider" xsi:type="string">related_banner_catalogrules_grid.related_banner_catalogrules_grid_data_source</item>
+                    <item name="selectionsProvider" xsi:type="string">related_banner_catalogrules_grid.related_banner_catalogrules_grid.related_catalogrule_banners_columns.ids</item>
+                    <item name="dataLinks" xsi:type="array">
+                        <item name="imports" xsi:type="boolean">true</item>
+                        <item name="exports" xsi:type="boolean">false</item>
+                    </item>
+                    <item name="externalTransfer" xsi:type="boolean">true</item>
+                    <item name="imports" xsi:type="array">
+                        <item name="ruleId" xsi:type="string">${ $.provider }:data.rule_id</item>
+                    </item>
+                    <item name="exports" xsi:type="array">
+                        <item name="ruleId" xsi:type="string">${ $.externalProvider }:params.rule_id</item>
+                    </item>
                 </item>
             </argument>
-        </field>
-        <field name="custom_theme">
-            <argument name="data" xsi:type="array">
-                <item name="options" xsi:type="object">Magento\Cms\Model\Page\Source\Theme</item>
-                <item name="config" xsi:type="array">
-                    <item name="dataType" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">New Theme</item>
-                    <item name="formElement" xsi:type="string">select</item>
-                    <item name="source" xsi:type="string">page</item>
-                    <item name="dataScope" xsi:type="string">custom_theme</item>
-                    <item name="caption" xsi:type="string" translate="true">-- Please Select --</item>
-                </item>
-            </argument>
-        </field>
+        </insertListing>
     </fieldset>
 </form>

@@ -53,7 +53,7 @@ class BannerRepository implements BannerRepositoryInterface
     protected $dataObjectProcessor;
 
     /**
-     * @var \Magento\Cms\Api\Data\BannerInterfaceFactory
+     * @var Data\BannerInterfaceFactory
      */
     protected $dataBannerFactory;
 
@@ -83,8 +83,8 @@ class BannerRepository implements BannerRepositoryInterface
         StoreManagerInterface $storeManager
     ) {
         $this->resource = $resource;
-        $this->BannerFactory = $bannerFactory;
-        $this->BannerCollectionFactory = $bannerCollectionFactory;
+        $this->bannerFactory = $bannerFactory;
+        $this->bannerCollectionFactory = $bannerCollectionFactory;
         $this->searchResultsFactory = $searchResultsFactory;
         $this->dataObjectHelper = $dataObjectHelper;
         $this->dataBannerFactory = $dataBannerFactory;
@@ -125,10 +125,10 @@ class BannerRepository implements BannerRepositoryInterface
      */
     public function getById($bannerId)
     {
-        $banner = $this->BannerFactory->create();
+        $banner = $this->bannerFactory->create();
         $banner->load($bannerId);
         if (!$banner->getId()) {
-            throw new NoSuchEntityException(__('CMS Banner with id "%1" does not exist.', $bannerId));
+            throw new NoSuchEntityException(__('Banner with id "%1" does not exist.', $bannerId));
         }
         return $banner;
     }
@@ -146,7 +146,7 @@ class BannerRepository implements BannerRepositoryInterface
         $searchResults = $this->searchResultsFactory->create();
         $searchResults->setSearchCriteria($criteria);
 
-        $collection = $this->BannerCollectionFactory->create();
+        $collection = $this->bannerCollectionFactory->create();
         foreach ($criteria->getFilterGroups() as $filterGroup) {
             foreach ($filterGroup->getFilters() as $filter) {
                 if ($filter->getField() === 'store_id') {
@@ -168,24 +168,25 @@ class BannerRepository implements BannerRepositoryInterface
                 );
             }
         }
-        $collection->setCurBanner($criteria->getCurrentBanner());
-        $collection->setBannerSize($criteria->getBannerSize());
-        $banners = [];
-        /** @var Banner $bannerModel */
-        foreach ($collection as $bannerModel) {
-            $bannerData = $this->dataBannerFactory->create();
-            $this->dataObjectHelper->populateWithArray(
-                $bannerData,
-                $bannerModel->getData(),
-                'Magento\Cms\Api\Data\BannerInterface'
-            );
-            $banners[] = $this->dataObjectProcessor->buildOutputDataArray(
-                $bannerData,
-                'Magento\Cms\Api\Data\BannerInterface'
-            );
-        }
-        $searchResults->setItems($banners);
-        return $searchResults;
+        $collection->setCurPage($criteria->getCurrentPage());
+        $collection->setPageSize($criteria->getPageSize());
+        return $collection;
+//        $banners = [];
+//        /** @var Banner $bannerModel */
+//        foreach ($collection as $bannerModel) {
+//            $bannerData = $this->dataBannerFactory->create();
+//            $this->dataObjectHelper->populateWithArray(
+//                $bannerData,
+//                $bannerModel->getData(),
+//                BannerInterface::class
+//            );
+//            $banners[] = $this->dataObjectProcessor->buildOutputDataArray(
+//                $bannerData,
+//                BannerInterface::class
+//            );
+//        }
+//        $searchResults->setItems($banners);
+//        return $searchResults;
     }
 
     /**
