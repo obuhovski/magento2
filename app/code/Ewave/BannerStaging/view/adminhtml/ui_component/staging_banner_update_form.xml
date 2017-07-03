@@ -316,14 +316,14 @@
                 </item>
             </argument>
         </field>
-        <field name="specify_types">
+        <field name="types">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="label" xsi:type="string">Specify Types</item>
                     <item name="dataType" xsi:type="string">number</item>
                     <item name="formElement" xsi:type="string">multiselect</item>
                     <item name="source" xsi:type="string">banner</item>
-                    <item name="dataScope" xsi:type="string">specify_types</item>
+                    <item name="dataScope" xsi:type="string">types</item>
                 </item>
                 <item name="options" xsi:type="object">Magento\Banner\Model\Config</item>
                 <item name="imports" xsi:type="array">
@@ -379,7 +379,7 @@
                 <item name="label" xsi:type="string" translate="true">Content</item>
             </item>
         </argument>
-        <container name="banner_content" >
+        <container name="banner_content">
             <htmlContent name="html_content">
                 <argument name="block" xsi:type="object">Ewave\BannerStaging\Block\Adminhtml\Banner\Content</argument>
             </htmlContent>

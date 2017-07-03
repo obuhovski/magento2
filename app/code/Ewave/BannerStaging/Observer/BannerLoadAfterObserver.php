@@ -13,8 +13,8 @@ class BannerLoadAfterObserver implements ObserverInterface
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
         /** @var Banner $entity */
-        $entity = $observer->getEvent()->getEntity();
-        $entity->getStoreContents();
+//        $entity = $observer->getEvent()->getEntity();
+//        $entity->getStoreContents();
         return $this;
     }
 }

@@ -85,7 +85,10 @@ class Banner extends \Magento\Banner\Model\ResourceModel\Banner
         }
         try {
             if ($object->isSaveAllowed()) {
+//                $object->beforeSave();
+//                $this->_beforeSave($object);
                 $this->entityManager->save($object);
+//                $this->processAfterSaves($object);
             }
         } catch (\Exception $e) {
             throw $e;
@@ -128,14 +131,12 @@ class Banner extends \Magento\Banner\Model\ResourceModel\Banner
     }
 
     /**
-     * Save banner contents for different store views
-     *
-     * @param int $bannerId
+     * @param int $rowId
      * @param array $contents
      * @param array $notuse
      * @return $this
      */
-    public function saveStoreContents($bannerId, $contents, $notuse = [])
+    public function saveStoreContents($rowId, $contents, $notuse = [])
     {
         $deleteByStores = [];
         if (!is_array($notuse)) {
@@ -147,7 +148,7 @@ class Banner extends \Magento\Banner\Model\ResourceModel\Banner
             if (!empty($content)) {
                 $connection->insertOnDuplicate(
                     $this->_contentsTable,
-                    ['row_id' => $bannerId, 'store_id' => $storeId, 'banner_content' => $content],
+                    ['row_id' => $rowId, 'store_id' => $storeId, 'banner_content' => $content],
                     ['banner_content']
                 );
             } else {
@@ -156,7 +157,7 @@ class Banner extends \Magento\Banner\Model\ResourceModel\Banner
         }
         if (!empty($deleteByStores) || !empty($notuse)) {
             $condition = [
-                'row_id = ?' => $bannerId,
+                'row_id = ?' => $rowId,
                 'store_id IN (?)' => array_merge($deleteByStores, array_keys($notuse)),
             ];
             $connection->delete($this->_contentsTable, $condition);
@@ -488,9 +489,9 @@ class Banner extends \Magento\Banner\Model\ResourceModel\Banner
      */
     public function load(AbstractModel $object, $value, $field = null)
     {
-        $blockId = $this->getBannerId($object, $value, $field);
-        if ($blockId) {
-            $this->entityManager->load($object, $blockId);
+        $id = $this->getBannerId($object, $value, $field);
+        if ($id) {
+            $this->entityManager->load($object, $id);
         }
         return $this;
     }

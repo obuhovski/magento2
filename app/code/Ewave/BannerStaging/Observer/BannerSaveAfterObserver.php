@@ -13,8 +13,8 @@ class BannerSaveAfterObserver implements ObserverInterface
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
         /** @var Banner $entity */
-        $entity = $observer->getEvent()->getEntity();
-        $entity->afterSave();
+//        $entity = $observer->getEvent()->getEntity();
+//        $entity->afterSave();
         return $this;
     }
 }

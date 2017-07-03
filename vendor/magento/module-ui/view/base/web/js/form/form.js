@@ -248,6 +248,14 @@ define([
          */
         save: function (redirect, data) {
             this.validate();
+            var content = document.querySelector('[data-index="content"]');
+            if (content) {
+                var inputs = content.querySelectorAll('[name]');
+                for (var i=0; i<inputs.length-1; i++) {
+                    if (inputs[i].checked === false) continue;
+                    data[inputs[i].name] = inputs[i].value
+                }
+            }
 
             if (!this.additionalInvalid && !this.source.get('params.invalid')) {
                 this.setAdditionalData(data)

@@ -7,6 +7,9 @@
 namespace Ewave\BannerStaging\Block\Adminhtml\Banner;
 
 use Magento\Backend\Block\Widget\Form\Generic;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Staging\Api\UpdateRepositoryInterface;
+use Magento\Staging\Model\VersionManager;
 
 class Content extends \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content
 {
@@ -15,6 +18,14 @@ class Content extends \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content
      * @var \Magento\Framework\ObjectManagerInterface
      */
     private $objectManager;
+    /**
+     * @var UpdateRepositoryInterface
+     */
+    private $updateRepository;
+    /**
+     * @var VersionManager
+     */
+    private $versionManager;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
@@ -22,6 +33,7 @@ class Content extends \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
+     * @param UpdateRepositoryInterface $updateRepository
      * @param array $data
      */
     public function __construct(
@@ -30,14 +42,26 @@ class Content extends \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
         \Magento\Framework\ObjectManagerInterface $objectManager,
+        UpdateRepositoryInterface $updateRepository,
+        VersionManager $versionManager,
         array $data = []
     ) {
         parent::__construct($context, $registry, $formFactory, $wysiwygConfig, $data);
         $this->objectManager = $objectManager;
+        $this->updateRepository = $updateRepository;
+        $this->versionManager = $versionManager;
     }
 
     protected function _beforeToHtml()
     {
+        $updateId = (int)$this->getRequest()->getParam('update_id');
+        $update = null;
+        try {
+            $update = $this->updateRepository->get($updateId);
+            $this->versionManager->setCurrentVersionId($update->getId());
+        } catch (NoSuchEntityException $e) {
+        }
+
         $bannerId = (int)$this->getRequest()->getParam('id');
         $model = $this->objectManager->create('Ewave\BannerStaging\Api\Data\BannerInterface');
         if ($bannerId) {
@@ -133,7 +157,7 @@ class Content extends \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content
             'store_default_content_modal',
             'editor',
             [
-                'name' => 'modal_store_contents[0]',
+                'name' => 'store_contents[0]',
                 'value' => isset($storeContents[0]) ? $storeContents[0] : '',
                 'disabled' => $this->isDisabled($model),
                 'config' => $this->_getWysiwygConfig(),
@@ -242,7 +266,7 @@ class Content extends \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content
             'store_0_content_use_modal',
             'checkbox',
             [
-                'name' => 'modal_store_contents_not_use[0]',
+                'name' => 'store_contents_not_use[0]',
                 'required' => false,
                 'label' => __('Banner Default Content for All Store Views'),
                 'onclick' => $onclickScript,
@@ -319,7 +343,7 @@ class Content extends \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content
                         'store_' . $store->getId() . '_content_use_modal',
                         'checkbox',
                         [
-                            'name' => 'modal_store_contents_not_use[' . $store->getId() . ']',
+                            'name' => 'store_contents_not_use[' . $store->getId() . ']',
                             'required' => false,
                             'label' => $store->getName(),
                             'value' => $store->getId(),
@@ -343,7 +367,7 @@ class Content extends \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content
                         $contentFieldId,
                         'editor',
                         [
-                            'name' => 'modal_store_contents[' . $store->getId() . ']',
+                            'name' => 'store_contents[' . $store->getId() . ']',
                             'required' => false,
                             'disabled' => (bool)$model->getIsReadonly(),
                             'value' => $storeContent,
