@@ -251,9 +251,12 @@ define([
             var content = document.querySelector('[data-index="content"]');
             if (content) {
                 var inputs = content.querySelectorAll('[name]');
-                for (var i=0; i<inputs.length-1; i++) {
-                    if (inputs[i].checked === false) continue;
-                    data[inputs[i].name] = inputs[i].value
+                for (var i=0; i<inputs.length; i++) {
+                    var input = inputs[i];
+                    if (input.checked === false) {
+                        continue;
+                    }
+                    data[input.name] = input.value
                 }
             }
 

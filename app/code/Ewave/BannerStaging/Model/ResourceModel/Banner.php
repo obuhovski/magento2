@@ -281,16 +281,16 @@ class Banner extends \Magento\Banner\Model\ResourceModel\Banner
     /**
      * Get sales rule that associated to banner
      *
-     * @param int $bannerId
+     * @param int $rowId
      * @return array
      */
-    public function getRelatedSalesRule($bannerId)
+    public function getRelatedSalesRule($rowId)
     {
         $connection = $this->getConnection();
         $select = $connection
             ->select()
             ->from($this->_salesRuleTable, [])
-            ->where($this->_salesRuleTable.'.row_id = ?', $bannerId);
+            ->where($this->_salesRuleTable.'.row_id = ?', $rowId);
         if (!$this->_isSalesRuleJoined) {
             $select->join(
                 ['rules' => $this->getTable('salesrule')],

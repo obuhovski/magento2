@@ -42,5 +42,12 @@
                 </item>
             </argument>
         </column>
+        <actionsColumn name="actions" class="stagingCmsBlockDashboardGridActions">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="indexField" xsi:type="string">banner_id</item>
+                </item>
+            </argument>
+        </actionsColumn>
     </columns>
 </listing>

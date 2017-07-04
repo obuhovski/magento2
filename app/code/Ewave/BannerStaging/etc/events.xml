@@ -9,4 +9,10 @@
     <event name="ewave_bannerstaging_api_data_bannerinterface_load_after">
         <observer name="save_relations" instance="Ewave\BannerStaging\Observer\BannerLoadAfterObserver" />
     </event>
+    <event name="magento_banner_load_after">
+        <observer name="magento_bannercustomersegment" disabled="true" />
+    </event>
+    <event name="magento_banner_save_after">
+        <observer name="magento_bannercustomersegment" disabled="true" />
+    </event>
 </config>

@@ -21,9 +21,6 @@ class BannerSaveBeforeObserver implements ObserverInterface
         } elseif (is_array($types)) {
             $types = implode(',', $types);
         }
-        if (empty($types)) {
-            $types = null;
-        }
         $entity->setTypes($types);
         return $this;
     }

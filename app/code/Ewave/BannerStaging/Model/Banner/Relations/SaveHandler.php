@@ -2,6 +2,7 @@
 namespace Ewave\BannerStaging\Model\Banner\Relations;
 
 use Magento\Banner\Model\ResourceModel\BannerFactory;
+use Magento\BannerCustomerSegment\Model\ResourceModel\BannerSegmentLink;
 use Magento\Framework\EntityManager\Operation\ExtensionInterface;
 use Magento\Cms\Model\ResourceModel\Block;
 use Magento\Framework\EntityManager\MetadataPool;
@@ -20,18 +21,32 @@ class SaveHandler implements ExtensionInterface
      * @var Block
      */
     protected $resourceBanner;
+    /**
+     * @var BannerSegmentLink
+     */
+    private $bannerSegmentLink;
+    /**
+     * @var \Magento\CustomerSegment\Helper\Data
+     */
+    private $segmentHelper;
 
     /**
      * SaveHandler constructor.
      * @param MetadataPool $metadataPool
      * @param BannerFactory $resourceBanner
+     * @param BannerSegmentLink $bannerSegmentLink
+     * @param \Magento\CustomerSegment\Helper\Data $segmentHelper
      */
     public function __construct(
         MetadataPool $metadataPool,
-        BannerFactory $resourceBanner
+        BannerFactory $resourceBanner,
+        BannerSegmentLink $bannerSegmentLink,
+        \Magento\CustomerSegment\Helper\Data $segmentHelper
     ) {
         $this->metadataPool = $metadataPool;
         $this->resourceBanner = $resourceBanner->create();
+        $this->bannerSegmentLink = $bannerSegmentLink;
+        $this->segmentHelper = $segmentHelper;
     }
 
     /**
@@ -57,6 +72,13 @@ class SaveHandler implements ExtensionInterface
 
         if ($entity->hasBannerSalesRules()) {
             $resourceBanner->saveSalesRules($entity->getRowId(), $entity->getBannerSalesRules());
+        }
+
+
+        if ($this->segmentHelper->isEnabled()) {
+            $segmentIds = $entity->getData('customer_segment_ids') ?: [];
+            $segmentIds = array_map('intval', $segmentIds);
+            $this->bannerSegmentLink->saveBannerSegments($entity->getRowId(), $segmentIds);
         }
 
         return $entity;

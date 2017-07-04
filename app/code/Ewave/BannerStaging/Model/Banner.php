@@ -50,7 +50,17 @@ class Banner extends \Magento\Banner\Model\Banner implements BannerInterface
      */
     public function getTypes()
     {
-        return $this->getData('types');
+        $types = $this->_getData('types');
+        if (is_array($types)) {
+            return $types;
+        }
+        if (empty($types)) {
+            $types = [];
+        } else {
+            $types = explode(',', $types);
+        }
+        $this->setData('types', $types);
+        return $types;
     }
 
     /**
@@ -174,5 +184,41 @@ class Banner extends \Magento\Banner\Model\Banner implements BannerInterface
             $this->setStoreContents($contents);
         }
         return $this->_getData('store_contents');
+    }
+
+    /**
+     * Retrieve array of sales rules id's for banner
+     *
+     * @return array
+     */
+    public function getRelatedSalesRule()
+    {
+        if (!$this->getRowId()) {
+            return [];
+        }
+        $array = $this->getData('related_sales_rule');
+        if (is_null($array)) {
+            $array = $this->getResource()->getRelatedSalesRule($this->getRowId());
+            $this->setData('related_sales_rule', $array);
+        }
+        return $array;
+    }
+
+    /**
+     * Retrieve array of catalog rules id's for banner
+     *
+     * @return array
+     */
+    public function getRelatedCatalogRule()
+    {
+        if (!$this->getRowId()) {
+            return [];
+        }
+        $array = $this->getData('related_catalog_rule');
+        if (is_null($array)) {
+            $array = $this->getResource()->getRelatedCatalogRule($this->getRowId());
+            $this->setData('related_catalog_rule', $array);
+        }
+        return $array;
     }
 }
