@@ -40,15 +40,15 @@ class UpdatePlugin
      */
     public function beforeGetItems(Collection $subject)
     {
-//        $updateId = $this->request->getParam('update_id');
-//        if ($updateId) {
-//            try {
-//                $update = $this->updateRepository->get($updateId);
-//                if ($update->getId()) {
-//                    $subject->getSelect()->setPart('disable_staging_preview', true);
-//                }
-//            } catch (NoSuchEntityException $e) {
-//            }
-//        }
+        $updateId = $this->request->getParam('update_id');
+        if ($updateId) {
+            try {
+                $update = $this->updateRepository->get($updateId);
+                if ($update->getId()) {
+                    $subject->getSelect()->setPart('disable_staging_preview', true);
+                }
+            } catch (NoSuchEntityException $e) {
+            }
+        }
     }
 }

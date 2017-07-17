@@ -14,14 +14,17 @@ use Magento\Framework\Api\SearchCriteriaBuilder;
 
 class Data extends \Magento\Banner\Model\Banner\Data
 {
+    const STATUS_ENABLED = 1;
+
     /**
      * @var BannerRepository
      */
-    private $bannerRepository;
+    protected $bannerRepository;
+
     /**
      * @var SearchCriteriaBuilder
      */
-    private $searchCriteriaBuilder;
+    protected $searchCriteriaBuilder;
 
     /**
      * Data constructor.
@@ -43,20 +46,22 @@ class Data extends \Magento\Banner\Model\Banner\Data
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
         BannerRepository $bannerRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder
-    )
-    {
+    ) {
         parent::__construct($checkoutSession, $bannerResource, $banner, $storeManager, $httpContext, $filterProvider);
         $this->bannerRepository = $bannerRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
 
+    /**
+     * @return array
+     */
     protected function getFixedBanners()
     {
-        $criteria = $this->searchCriteriaBuilder->addFilter('is_enabled', 1)->create();
-        $banners = $this->bannerRepository->getList($criteria);
+        $criteria = $this->searchCriteriaBuilder->addFilter('is_enabled', self::STATUS_ENABLED)->create();
+        $banners = $this->bannerRepository->getList($criteria)->getItems();
         $bannerArray = [];
         foreach ($banners as $banner) {
-            $content = $banner->getResource()->getStoreContent($banner->getRowId(), $this->storeId);
+            $content = $banner->getResource()->getStoreContent($banner->getRowId(), $this->storeId) ?: '';
             $bannerArray[$banner->getId()] = [
                 'content' => $this->filterProvider->getPageFilter()->filter($content),
                 'types' => $banner->getTypes(),

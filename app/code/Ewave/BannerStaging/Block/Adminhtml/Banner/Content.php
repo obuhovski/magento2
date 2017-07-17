@@ -1,11 +1,8 @@
 <?php
-/**
- * Banner content per store view edit page
- *
- * @author     Magento Core Team <core@magentocommerce.com>
- */
+
 namespace Ewave\BannerStaging\Block\Adminhtml\Banner;
 
+use Ewave\BannerStaging\Api\BannerRepositoryInterface;
 use Magento\Backend\Block\Widget\Form\Generic;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Staging\Api\UpdateRepositoryInterface;
@@ -13,27 +10,29 @@ use Magento\Staging\Model\VersionManager;
 
 class Content extends \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content
 {
-
-    /**
-     * @var \Magento\Framework\ObjectManagerInterface
-     */
-    private $objectManager;
     /**
      * @var UpdateRepositoryInterface
      */
-    private $updateRepository;
+    protected $updateRepository;
+
     /**
      * @var VersionManager
      */
-    private $versionManager;
+    protected $versionManager;
+
+    /**
+     * @var BannerRepositoryInterface
+     */
+    protected $bannerRepository;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
-     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param UpdateRepositoryInterface $updateRepository
+     * @param VersionManager $versionManager
+     * @param BannerRepositoryInterface $bannerRepository
      * @param array $data
      */
     public function __construct(
@@ -41,20 +40,24 @@ class Content extends \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
-        \Magento\Framework\ObjectManagerInterface $objectManager,
         UpdateRepositoryInterface $updateRepository,
         VersionManager $versionManager,
+        BannerRepositoryInterface $bannerRepository,
         array $data = []
     ) {
         parent::__construct($context, $registry, $formFactory, $wysiwygConfig, $data);
-        $this->objectManager = $objectManager;
         $this->updateRepository = $updateRepository;
         $this->versionManager = $versionManager;
+        $this->bannerRepository = $bannerRepository;
     }
 
+    /**
+     * @return mixed
+     */
     protected function _beforeToHtml()
     {
-        $updateId = (int)$this->getRequest()->getParam('update_id');
+        $request = $this->getRequest();
+        $updateId = (int)$request->getParam('update_id');
         $update = null;
         try {
             $update = $this->updateRepository->get($updateId);
@@ -62,20 +65,14 @@ class Content extends \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content
         } catch (NoSuchEntityException $e) {
         }
 
-        $bannerId = (int)$this->getRequest()->getParam('id');
-        $model = $this->objectManager->create('Ewave\BannerStaging\Api\Data\BannerInterface');
-        if ($bannerId) {
-            $model->load($bannerId);
-        }
-        if (!$this->_coreRegistry->registry('current_banner')) {
+        $bannerId = (int)$request->getParam('banner_id') ?: $request->getParam('id');
+        if ($bannerId && !$this->_coreRegistry->registry('current_banner')) {
+            $model = $this->bannerRepository->getById($bannerId);
             $this->_coreRegistry->register('current_banner', $model);
         }
 
         return parent::_beforeToHtml();
     }
-
-
-
 
     /**
      * Prepare Banners Content Tab form, define Editor settings
@@ -219,7 +216,8 @@ class Content extends \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content
         $visibleContents = $isVisible
             ? '$(\'buttons' . $form->getHtmlIdPrefix() . 'store_default_content_modal\').hide(); '
             : '';
-        $contents = isset($storeContents[0]) ? '' : (!$model->getId() ? '' : '$(\'store_default_content_modal\').hide();');
+        $contents = isset($storeContents[0]) ? '' :
+            (!$model->getId() ? '' : '$(\'store_default_content_modal\').hide();');
         return '<script>require(["prototype"], function(){' . $visibleContents . $contents . '});</script>';
     }
 
@@ -230,6 +228,8 @@ class Content extends \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content
      * @param \Magento\Framework\Data\Form $form
      * @param \Magento\Banner\Model\Banner $model
      * @return \Magento\Framework\Data\Form\Element\AbstractElement
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function _createDefaultContentForStoresField($fieldset, $form, $model)
     {
@@ -247,8 +247,8 @@ class Content extends \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content
                         $form->getHtmlIdPrefix() . "store_0_content_use_modal').checked == true" ?
                             "$('" . $form->getHtmlIdPrefix() .
                             "store_" . $store->getId() . "_content_use_modal').checked = false;
-                    $('" . $form->getHtmlIdPrefix() . "s_" . $store->getId() . "_content').disabled = false;
-                    $('s_" . $store->getId() . "_content').show();" : "'';") .
+                    $('" . $form->getHtmlIdPrefix() . "s_" . $store->getId() . "_content_modal').disabled = false;
+                    $('s_" . $store->getId() . "_content_modal').show();" : "'';") .
                         "$('" . $form->getHtmlIdPrefix() .
                         "store_" . $store->getId() . "_content_use_modal').disabled = $('" .
                         $form->getHtmlIdPrefix() . "store_0_content_use_modal').checked;";
@@ -256,10 +256,7 @@ class Content extends \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content
             }
         }
 
-        $afterHtml = '<span>' . __(
-                'No Default Content'
-            ) . '</span>';
-
+        $afterHtml = '<span>' . __('No Default Content') . '</span>';
         $isDisabled = (bool)$model->getIsReadonly() || $model->getCanSaveAllStoreViewsContent() === false;
 
         return $fieldset->addField(
@@ -328,7 +325,7 @@ class Content extends \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content
                             "').disabled = false;}") .
                         '});</script>';
                     $afterEditorHtml = '<script>require(["prototype"], function () {' .
-                        ("if ('" . !$storeContent  . "') {" .
+                        ("if ('" . !$storeContent . "') {" .
                             "if ($('" . $form->getHtmlIdPrefix() . "store_0_content_use_modal').checked) {" .
                             "$('" . $contentFieldId . "').show();" .
                             "} else {" .
@@ -337,7 +334,7 @@ class Content extends \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content
                             "}" .
                             "} else if ('" . (bool)$model->getIsReadonly() . "') {" .
                             "$('buttons" . $form->getHtmlIdPrefix() . $contentFieldId . "').hide();" .
-                            "}").
+                            "}") .
                         '});</script>';
                     $fieldset->addField(
                         'store_' . $store->getId() . '_content_use_modal',
@@ -382,5 +379,4 @@ class Content extends \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content
         }
         return $fieldset;
     }
-
 }

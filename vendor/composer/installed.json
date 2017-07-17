@@ -13798,5 +13798,175 @@
             "AFL-3.0"
         ],
         "description": "N/A"
+    },
+    {
+        "name": "vlucas/valitron",
+        "version": "v1.4.0",
+        "version_normalized": "1.4.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/vlucas/valitron.git",
+            "reference": "b33c79116260637337187b7125f955ae26d306cc"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/vlucas/valitron/zipball/b33c79116260637337187b7125f955ae26d306cc",
+            "reference": "b33c79116260637337187b7125f955ae26d306cc",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.2"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.0"
+        },
+        "time": "2017-02-23 08:31:59",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Valitron": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD"
+        ],
+        "authors": [
+            {
+                "name": "Vance Lucas",
+                "email": "vance@vancelucas.com",
+                "homepage": "http://www.vancelucas.com"
+            }
+        ],
+        "description": "Simple, elegant, stand-alone validation library with NO dependencies",
+        "homepage": "http://github.com/vlucas/valitron",
+        "keywords": [
+            "valid",
+            "validation",
+            "validator"
+        ]
+    },
+    {
+        "name": "ewave/ai",
+        "version": "dev-develop",
+        "version_normalized": "dev-develop",
+        "source": {
+            "type": "git",
+            "url": "https://andrey.obuhovskiy@stash.ewave.com/scm/lego/ewave_ai.git",
+            "reference": "7104a4dca92c4fb42bbd635c1cbe34b744f2782c"
+        },
+        "require": {
+            "vlucas/valitron": "^1.4"
+        },
+        "time": "2017-07-12 06:42:12",
+        "type": "magento2-module",
+        "installation-source": "source",
+        "autoload": {
+            "files": [
+                "registration.php"
+            ],
+            "psr-4": {
+                "Ewave\\AI\\": ""
+            }
+        },
+        "description": "Integration Engine."
+    },
+    {
+        "name": "ewave/club",
+        "version": "dev-develop",
+        "version_normalized": "dev-develop",
+        "source": {
+            "type": "git",
+            "url": "https://andrey.obuhovskiy@stash.ewave.com/scm/lego/ewave_club.git",
+            "reference": "2c369a155b49ef9b0e8dc1ed0586fc8cbd7eed4a"
+        },
+        "require": {
+            "php": "~5.5.0|~5.6.0|~7.0.0"
+        },
+        "time": "2017-07-14 13:43:20",
+        "type": "magento2-module",
+        "installation-source": "source",
+        "autoload": {
+            "files": [
+                "registration.php"
+            ],
+            "psr-4": {
+                "Ewave\\Club\\": ""
+            }
+        },
+        "description": "Ewave Club"
+    },
+    {
+        "name": "ewave/event",
+        "version": "dev-develop",
+        "version_normalized": "dev-develop",
+        "source": {
+            "type": "git",
+            "url": "https://andrey.obuhovskiy@stash.ewave.com/scm/lego/ewave_event.git",
+            "reference": "c03dc54e13bd1cba28c9d7b2165c48f4e8e50d85"
+        },
+        "require": {
+            "php": "~5.5.0|~5.6.0|~7.0.0"
+        },
+        "time": "2017-07-14 07:23:45",
+        "type": "magento2-module",
+        "installation-source": "source",
+        "autoload": {
+            "files": [
+                "registration.php"
+            ],
+            "psr-4": {
+                "Ewave\\Event\\": ""
+            }
+        },
+        "description": "Ewave Event"
+    },
+    {
+        "name": "ewave/clubevent",
+        "version": "dev-develop",
+        "version_normalized": "dev-develop",
+        "source": {
+            "type": "git",
+            "url": "https://andrey.obuhovskiy@stash.ewave.com/scm/lego/ewave_clubevent.git",
+            "reference": "f30cf96e93bd2e5d07a0aba3bce888b551720c5a"
+        },
+        "require": {
+            "php": "~5.5.0|~5.6.0|~7.0.0"
+        },
+        "time": "2017-07-14 13:42:58",
+        "type": "magento2-module",
+        "installation-source": "source",
+        "autoload": {
+            "files": [
+                "registration.php"
+            ],
+            "psr-4": {
+                "Ewave\\ClubEvent\\": ""
+            }
+        },
+        "description": "Add-on to Club and Event extensions. Contains main logic"
+    },
+    {
+        "name": "ewave/utilities",
+        "version": "dev-develop",
+        "version_normalized": "dev-develop",
+        "source": {
+            "type": "git",
+            "url": "https://andrey.obuhovskiy@stash.ewave.com/scm/lego/ewave_utilities.git",
+            "reference": "fa465cec96e00efc6f97259c46e30714e7f854c1"
+        },
+        "time": "2017-07-07 10:59:09",
+        "type": "magento2-module",
+        "installation-source": "source",
+        "autoload": {
+            "files": [
+                "registration.php"
+            ],
+            "psr-4": {
+                "Ewave\\Utilities\\": ""
+            }
+        },
+        "description": "Ewave Utilities Module"
     }
 ]

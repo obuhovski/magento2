@@ -40,7 +40,7 @@ class Delete extends Action
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magento_Staging::staging')
-        && $this->_authorization->isAllowed('Magento_Banner::save');
+        && $this->_authorization->isAllowed('Magento_Banner::delete');
     }
 
     /**

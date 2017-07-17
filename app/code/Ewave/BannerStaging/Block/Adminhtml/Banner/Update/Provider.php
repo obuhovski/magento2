@@ -11,7 +11,7 @@ use Magento\Staging\Model\VersionManager;
 use Magento\Staging\Ui\Component\Listing\Column\Entity\UrlProviderInterface;
 
 /**
- * Class GenericButton
+ * Class Provider
  */
 class Provider implements EntityProviderInterface
 {
@@ -29,7 +29,6 @@ class Provider implements EntityProviderInterface
      * @var VersionManager
      */
     protected $versionManager;
-
 
     /**
      * @param RequestInterface $request

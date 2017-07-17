@@ -15,12 +15,12 @@ class BannerStaging implements BannerStagingInterface
     /**
      * @var EntityManager
      */
-    private $entityManager;
+    protected $entityManager;
 
     /**
      * @var CampaignValidator
      */
-    private $campaignValidator;
+    protected $campaignValidator;
 
     /**
      * BannerStaging constructor.

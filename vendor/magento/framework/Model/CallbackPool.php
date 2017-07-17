@@ -16,7 +16,7 @@ class CallbackPool
      *
      * @var array
      */
-    private static $commitCallbacks = [];
+    public static $commitCallbacks = [];
 
     /**
      * @param string $hashKey

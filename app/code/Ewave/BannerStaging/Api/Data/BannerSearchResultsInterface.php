@@ -2,7 +2,6 @@
 
 namespace Ewave\BannerStaging\Api\Data;
 
-use Ewave\BannerStaging\Api\Data\BannerInterface;
 use Magento\Framework\Api\SearchResultsInterface;
 
 /**

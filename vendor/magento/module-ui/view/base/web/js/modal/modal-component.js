@@ -216,6 +216,7 @@ define([
             if (state) {
                 this.modal.modal('openModal');
                 this.applyData();
+                debugger;
             } else {
                 this.modal.modal('closeModal');
             }

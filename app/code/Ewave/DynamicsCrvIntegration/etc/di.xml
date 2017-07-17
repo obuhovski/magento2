@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights erved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Ewave\DynamicsCrvIntegration\Model\GlExport">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="bunchSize" xsi:type="number">100</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Ewave\DynamicsCrvIntegration\Model\PaymentsExport">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="bunchSize" xsi:type="number">100</item>
+            </argument>
+        </arguments>
+    </type>
+
+</config>

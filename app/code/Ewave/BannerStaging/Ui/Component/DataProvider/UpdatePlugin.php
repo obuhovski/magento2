@@ -49,19 +49,19 @@ class UpdatePlugin
      */
     public function beforeGetSearchResult(DataProviderInterface $subject)
     {
-//        $updateId = $this->request->getParam('update_id');
-//        if ($updateId) {
-//            try {
-//                $update = $this->updateRepository->get($updateId);
-//                if ($update->getId()) {
-//                    $filterBuilder = $this->filterBuilder
-//                        ->setField('created_in')
-//                        ->setConditionType('eq')
-//                        ->setValue($update->getId());
-//                    $subject->addFilter($filterBuilder->create());
-//                }
-//            } catch (NoSuchEntityException $e) {
-//            }
-//        }
+        $updateId = $this->request->getParam('update_id');
+        if ($updateId) {
+            try {
+                $update = $this->updateRepository->get($updateId);
+                if ($update->getId()) {
+                    $filterBuilder = $this->filterBuilder
+                        ->setField('created_in')
+                        ->setConditionType('eq')
+                        ->setValue($update->getId());
+                    $subject->addFilter($filterBuilder->create());
+                }
+            } catch (NoSuchEntityException $e) {
+            }
+        }
     }
 }

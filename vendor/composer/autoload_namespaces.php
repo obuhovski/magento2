@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Zend_' => array($vendorDir . '/magento/zendframework1/library'),
+    'Valitron' => array($vendorDir . '/vlucas/valitron/src'),
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
     'Solarium\\' => array($vendorDir . '/solarium/solarium/library'),
     'PHPMD\\' => array($vendorDir . '/phpmd/phpmd/src/main/php'),

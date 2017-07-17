@@ -53,7 +53,7 @@ class DataProvider extends BannerDataProvider
         foreach ($items as $banner) {
             $this->loadedData[$banner->getId()] = [
                 'banner_id' => $banner->getId(),
-                'title' => $banner->getName(),
+                'name' => $banner->getName(),
             ];
         }
 

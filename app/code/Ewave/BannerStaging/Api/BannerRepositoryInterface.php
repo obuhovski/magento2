@@ -6,7 +6,6 @@ use Ewave\BannerStaging\Api\Data\BannerInterface;
 use Ewave\BannerStaging\Api\Data\BannerSearchResultsInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Model\AbstractModel;
 
 /**
  * Banner CRUD interface.
@@ -17,11 +16,11 @@ interface BannerRepositoryInterface
     /**
      * Save banner.
      *
-     * @param \Ewave\BannerStaging\Api\Data\BannerInterface $banner
+     * @param BannerInterface $banner
      * @return BannerInterface
      * @throws LocalizedException
      */
-    public function save(\Ewave\BannerStaging\Api\Data\BannerInterface $banner);
+    public function save(BannerInterface $banner);
 
     /**
      * Retrieve banner.
@@ -39,16 +38,25 @@ interface BannerRepositoryInterface
      * @return BannerSearchResultsInterface
      * @throws LocalizedException
      */
-    public function getList(SearchCriteriaInterface $searchCriteria);
+    public function getList(SearchCriteriaInterface $searchCriteria = null);
+
+    /**
+     * Retrieve banners matching the specified criteria.
+     *
+     * @param int[] $ids
+     * @return BannerSearchResultsInterface
+     * @internal param SearchCriteriaInterface $searchCriteria
+     */
+    public function getListByRowIds(array $ids);
 
     /**
      * Delete banner.
      *
-     * @param \Ewave\BannerStaging\Api\Data\BannerInterface $banner
+     * @param BannerInterface $banner
      * @return bool true on success
      * @throws LocalizedException
      */
-    public function delete(\Ewave\BannerStaging\Api\Data\BannerInterface $banner);
+    public function delete(BannerInterface $banner);
 
     /**
      * Delete banner by ID.

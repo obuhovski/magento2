@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="ewave_gp_integration" translate="label" type="text" sortOrder="10" showInDefault="1">
+            <label>DynamicsGP Integration</label>
+            <tab>ewave</tab>
+            <resource>Ewave_AI::menu</resource>
+            <group id="general_ledger_transaction" translate="label" type="text" sortOrder="5" showInDefault="1">
+                <label>General Ledger Transaction</label>
+                <field id="ftp_dir" translate="label" type="text" sortOrder="1" showInDefault="1">
+                    <label>FTP Directory</label>
+                </field>
+                <field id="ftp_username" translate="label" type="text" sortOrder="2" showInDefault="1">
+                    <label>FTP Username</label>
+                </field>
+                <field id="ftp_password" translate="label" type="obscure" sortOrder="3" showInDefault="1">
+                    <label>FTP Password</label>
+                </field>
+            </group>
+            <group id="general_file_transaction" translate="label" type="text" sortOrder="5" showInDefault="1" showInStore="1">
+                <label>Payment File Transaction</label>
+                <field id="ftp_dir" translate="label" type="text" sortOrder="1" showInDefault="1">
+                    <label>FTP Directory</label>
+                </field>
+                <field id="ftp_username" translate="label" type="text" sortOrder="2" showInDefault="1">
+                    <label>FTP Username</label>
+                </field>
+                <field id="ftp_password" translate="label" type="obscure" sortOrder="3" showInDefault="1">
+                    <label>FTP Password</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

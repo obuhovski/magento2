@@ -1,10 +1,4 @@
 <?xml version="1.0"?>
-<!--
-/**
- * Copyright © 2013-2017 Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
--->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Magento\BannerCustomerSegment\Model\ResourceModel\BannerSegmentLink" type="Ewave\BannerStaging\Model\ResourceModel\BannerSegmentLink" />
     <preference for="Magento\Banner\Model\ResourceModel\Banner" type="Ewave\BannerStaging\Model\ResourceModel\Banner" />
@@ -12,8 +6,6 @@
     <preference for="Magento\Banner\Model\ResourceModel\Catalogrule\Collection" type="Ewave\BannerStaging\Model\ResourceModel\Catalogrule\Collection" />
     <preference for="Magento\Banner\Model\ResourceModel\Salesrule\Collection" type="Ewave\BannerStaging\Model\ResourceModel\Salesrule\Collection" />
     <preference for="Magento\Banner\Model\Banner\Data" type="Ewave\BannerStaging\Model\Banner\Data" />
-
-    <preference for="Magento\Banner\Controller\Adminhtml\Banner\Save" type="Ewave\BannerStaging\Controller\Adminhtml\Banner\Save" />
     <preference for="Magento\Banner\Model\Banner" type="Ewave\BannerStaging\Model\Banner" />
 
 
@@ -85,20 +77,26 @@
             <argument name="entityColumn" xsi:type="string">banner_id</argument>
         </arguments>
     </virtualType>
+    <type name="Ewave\BannerStaging\Model\ResourceModel\Banner\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">magento_banner</argument>
+            <argument name="eventPrefix" xsi:type="string">magento_banner_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">banner_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Ewave\BannerStaging\Model\ResourceModel\Banner</argument>
+        </arguments>
+        <plugin name="setStagingFlagBannerUpdate" type="Ewave\BannerStaging\Model\ResourceModel\Grid\Collection\UpdatePlugin"/>
+    </type>
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <arguments>
             <argument name="collections" xsi:type="array">
                 <item name="staging_banner_upcoming_grid_data_source" xsi:type="string">stagingBannerUpcomingResult</item>
                 <item name="staging_banner_update_select_grid_data_source" xsi:type="string">stagingBannerUpdateSelectResult</item>
                 <item name="staging_banner_update_remove_select_grid_data_source" xsi:type="string">stagingBannerUpdateSelectResult</item>
-                <item name="staging_update_edit_banner_grid_data_source" xsi:type="string">Magento\Banner\Model\ResourceModel\Banner\Grid\Collection</item>
+                <item name="staging_update_edit_banner_grid_data_source" xsi:type="string">Ewave\BannerStaging\Model\ResourceModel\Banner\Grid\Collection</item>
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Banner\Model\ResourceModel\Banner\Collection">
-        <plugin name="setStagingFlagBannerUpdate" type="Ewave\BannerStaging\Model\ResourceModel\Grid\Collection\UpdatePlugin"/>
-    </type>
-    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+    <type name="Ewave\BannerStaging\Ui\Component\DataProvider\DataProvider">
         <plugin name="filterBannerUpdate" type="Ewave\BannerStaging\Ui\Component\DataProvider\UpdatePlugin"/>
     </type>
     <type name="Magento\Staging\Model\Update\IncludesList">

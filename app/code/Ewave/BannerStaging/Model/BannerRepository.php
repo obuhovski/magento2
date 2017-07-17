@@ -4,6 +4,7 @@ namespace Ewave\BannerStaging\Model;
 use Ewave\BannerStaging\Api\Data;
 use Ewave\BannerStaging\Api\BannerRepositoryInterface;
 use Ewave\BannerStaging\Api\Data\BannerInterface;
+use Ewave\BannerStaging\Api\Data\BannerSearchResultsInterface;
 use Magento\Framework\Api\DataObjectHelper;
 use Magento\Framework\Api\SortOrder;
 use Magento\Framework\Exception\CouldNotDeleteException;
@@ -60,7 +61,7 @@ class BannerRepository implements BannerRepositoryInterface
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
      */
-    private $storeManager;
+    protected $storeManager;
 
     /**
      * @param ResourceBanner $resource
@@ -95,11 +96,11 @@ class BannerRepository implements BannerRepositoryInterface
     /**
      * Save Banner data
      *
-     * @param \Ewave\BannerStaging\Api\Data\BannerInterface $banner
+     * @param BannerInterface $banner
      * @return AbstractModel
      * @throws CouldNotSaveException
      */
-    public function save(\Ewave\BannerStaging\Api\Data\BannerInterface $banner)
+    public function save(BannerInterface $banner)
     {
         if (empty($banner->getStoreId())) {
             $storeId = $this->storeManager->getStore()->getId();
@@ -126,7 +127,7 @@ class BannerRepository implements BannerRepositoryInterface
     public function getById($bannerId)
     {
         $banner = $this->bannerFactory->create();
-        $banner->load($bannerId);
+        $this->resource->load($banner, $bannerId);
         if (!$banner->getId()) {
             throw new NoSuchEntityException(__('Banner with id "%1" does not exist.', $bannerId));
         }
@@ -139,14 +140,19 @@ class BannerRepository implements BannerRepositoryInterface
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @param \Magento\Framework\Api\SearchCriteriaInterface $criteria
-     * @return \Magento\Banner\Model\ResourceModel\Banner\Collection
+     * @return BannerSearchResultsInterface
      */
-    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $criteria)
+    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $criteria = null)
     {
+        $collection = $this->bannerCollectionFactory->create();
         $searchResults = $this->searchResultsFactory->create();
+
+        if ($criteria === null) {
+            $searchResults->setItems($collection->getItems());
+            return $searchResults;
+        }
         $searchResults->setSearchCriteria($criteria);
 
-        $collection = $this->bannerCollectionFactory->create();
         foreach ($criteria->getFilterGroups() as $filterGroup) {
             foreach ($filterGroup->getFilters() as $filter) {
                 if ($filter->getField() === 'store_id') {
@@ -170,33 +176,29 @@ class BannerRepository implements BannerRepositoryInterface
         }
         $collection->setCurPage($criteria->getCurrentPage());
         $collection->setPageSize($criteria->getPageSize());
-        return $collection;
-//        $banners = [];
-//        /** @var Banner $bannerModel */
-//        foreach ($collection as $bannerModel) {
-//            $bannerData = $this->dataBannerFactory->create();
-//            $this->dataObjectHelper->populateWithArray(
-//                $bannerData,
-//                $bannerModel->getData(),
-//                BannerInterface::class
-//            );
-//            $banners[] = $this->dataObjectProcessor->buildOutputDataArray(
-//                $bannerData,
-//                BannerInterface::class
-//            );
-//        }
-//        $searchResults->setItems($banners);
-//        return $searchResults;
+        $searchResults->setItems($collection->getItems());
+        return $searchResults;
+    }
+
+    /**
+     * @param array $ids
+     * @return \Magento\Framework\DataObject[]
+     */
+    public function getListByRowIds(array $ids)
+    {
+        $collection = $this->bannerCollectionFactory->create();
+        $collection->addFieldToFilter('row_id IN (?)', $ids);
+        return $collection->getItems();
     }
 
     /**
      * Delete Banner
      *
-     * @param \Ewave\BannerStaging\Api\Data\BannerInterface $banner
+     * @param BannerInterface $banner
      * @return bool
      * @throws CouldNotDeleteException
      */
-    public function delete(\Ewave\BannerStaging\Api\Data\BannerInterface $banner)
+    public function delete(BannerInterface $banner)
     {
         try {
             $this->resource->delete($banner);

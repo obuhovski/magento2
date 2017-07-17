@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-/**
- * Copyright © 2013-2017 Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
--->
 <form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
     <argument name="data" xsi:type="array">
         <item name="js_config" xsi:type="array">
@@ -47,7 +41,7 @@
                     <item name="upcomingListingProvider" xsi:type="string">upcoming_grid</item>
                     <item name="removeModalProvider" xsi:type="string">${ $.ns}.${ $.ns}.update_remove_banner_form_modal</item>
                     <item name="removeResponseProvider" xsi:type="string">${ $.removeModalProvider }.update_remove_banner_form_loader:responseData</item>
-                    <item name="modalTitleProvider" xsi:type="string">${ $.externalProvider }:data.title</item>
+                    <item name="modalTitleProvider" xsi:type="string">${ $.externalProvider }:data.name</item>
                     <item name="modalSubTitleProvider" xsi:type="string">${ $.externalProvider }:data.staging.name</item>
                 </item>
             </argument>

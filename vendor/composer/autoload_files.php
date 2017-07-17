@@ -225,5 +225,10 @@ return array(
     'e70e54b8e37243351584ab7c294c362b' => $vendorDir . '/magento/module-multiple-wishlist-sample-data/registration.php',
     'a45c4061c6e118e487c2608a375b43b1' => $vendorDir . '/magento/module-swatches-sample-data/registration.php',
     '47847ac47f7c00c55faf0958898a47e5' => $vendorDir . '/magento/module-offline-shipping-sample-data/registration.php',
+    'f5f5b127afc1127200aeed05a771342a' => $vendorDir . '/ewave/ai/registration.php',
+    '7279171a3f8fde51b637c2e7caf44bac' => $vendorDir . '/ewave/club/registration.php',
+    '14bac76369992a840ba32b5446ddafad' => $vendorDir . '/ewave/event/registration.php',
+    '50fa10b858032b16020a72df2d02dc30' => $vendorDir . '/ewave/clubevent/registration.php',
+    'ee68a6b41197ea48026d9b1f1c2267b8' => $vendorDir . '/ewave/utilities/registration.php',
     '4887019506f275125b720bf9bcfdc406' => $baseDir . '/app/etc/NonComposerComponentRegistration.php',
 );

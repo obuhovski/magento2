@@ -17,7 +17,7 @@
     </type>
     <virtualType name="stagingBannerUpcomingGridActions" type="Magento\Staging\Ui\Component\Listing\Column\Entity\Actions">
         <arguments>
-            <argument name="entityIdentifier" xsi:type="string">id</argument>
+            <argument name="entityIdentifier" xsi:type="string">banner_id</argument>
             <argument name="entityColumn" xsi:type="string">banner_id</argument>
             <argument name="jsModalProvider" xsi:type="string">staging_banner_upcoming_form.staging_banner_upcoming_form.update_banner_form_modal</argument>
             <argument name="jsLoaderProvider" xsi:type="string">staging_banner_upcoming_form.staging_banner_upcoming_form.update_banner_form_modal.update_banner_form_loader</argument>
@@ -61,9 +61,6 @@
             <argument name="entityProvider" xsi:type="object">Ewave\BannerStaging\Block\Adminhtml\Banner\Update\Provider</argument>
         </arguments>
     </virtualType>
-    <type name="Magento\Banner\Controller\Adminhtml\Banner\Save">
-        <plugin name="staging_banner_save" type="Ewave\BannerStaging\Controller\Adminhtml\Banner\Save\Plugin" />
-    </type>
 
     <type name="Magento\Staging\Model\Entity\Update\Action\Pool">
         <arguments>
@@ -82,7 +79,6 @@
             </argument>
         </arguments>
     </type>
-    <!-- Banner save controller -->
     <virtualType name="bannerHydrator" type="Ewave\BannerStaging\Model\Banner\Hydrator">
         <arguments>
             <argument name="entityRetriever" xsi:type="object">Ewave\BannerStaging\Model\Banner\Retriever</argument>
@@ -122,13 +118,11 @@
         </arguments>
     </virtualType>
     <type name="Ewave\BannerStaging\Controller\Adminhtml\Banner\Update\Save">
-        <plugin name="staging_banner_update_save" type="Ewave\BannerStaging\Controller\Adminhtml\Banner\Update\Save\Plugin" />
         <arguments>
             <argument name="stagingUpdateSave" xsi:type="object">bannerUpdateSave</argument>
         </arguments>
     </type>
 
-    <!-- Banner delete controller -->
     <type name="Ewave\BannerStaging\Controller\Adminhtml\Banner\Update\Delete">
         <arguments>
             <argument name="stagingUpdateDelete" xsi:type="object">bannerUpdateDelete</argument>

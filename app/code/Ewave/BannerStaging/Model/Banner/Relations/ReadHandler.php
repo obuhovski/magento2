@@ -13,32 +13,17 @@ use Magento\Framework\EntityManager\MetadataPool;
 class ReadHandler implements ExtensionInterface
 {
     /**
-     * @var MetadataPool
-     */
-    protected $metadataPool;
-
-    /**
-     * @var Block
-     */
-    protected $resourceBanner;
-    /**
      * @var BannerSegmentLink
      */
-    private $bannerSegmentLink;
+    protected $bannerSegmentLink;
 
     /**
      * SaveHandler constructor.
-     * @param MetadataPool $metadataPool
-     * @param Banner $resourceBanner
      * @param BannerSegmentLink $bannerSegmentLink
      */
     public function __construct(
-        MetadataPool $metadataPool,
-        Banner $resourceBanner,
         BannerSegmentLink $bannerSegmentLink
     ) {
-        $this->metadataPool = $metadataPool;
-        $this->resourceBanner = $resourceBanner;
         $this->bannerSegmentLink = $bannerSegmentLink;
     }
 

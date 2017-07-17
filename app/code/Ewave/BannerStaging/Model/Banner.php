@@ -3,6 +3,7 @@
 namespace Ewave\BannerStaging\Model;
 
 use Ewave\BannerStaging\Api\Data\BannerInterface;
+use Ewave\BannerStaging\Model\ResourceModel\BannerSegmentLink;
 use Magento\Framework\EntityManager\EntityManager;
 use Magento\Framework\Model\AbstractModel;
 
@@ -11,14 +12,38 @@ use Magento\Framework\Model\AbstractModel;
  */
 class Banner extends \Magento\Banner\Model\Banner implements BannerInterface
 {
-    // TODO create constants for all keys
+    /**
+     * @var BannerSegmentLink
+     */
+    private $bannerSegmentLink;
+
+    /**
+     * Banner constructor.
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param BannerSegmentLink $bannerSegmentLink
+     * @param ResourceModel\Banner|null $resource
+     * @param ResourceModel\Banner\Collection|null $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
+        BannerSegmentLink $bannerSegmentLink,
+        \Ewave\BannerStaging\Model\ResourceModel\Banner $resource = null,
+        \Ewave\BannerStaging\Model\ResourceModel\Banner\Collection $resourceCollection = null,
+        array $data = []
+    ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->bannerSegmentLink = $bannerSegmentLink;
+    }
 
     /**
      * @inheritdoc
      */
     public function getId()
     {
-        return parent::getData('banner_id');
+        return parent::getData(BannerInterface::BANNER_ID);
     }
 
     /**
@@ -26,7 +51,7 @@ class Banner extends \Magento\Banner\Model\Banner implements BannerInterface
      */
     public function getName()
     {
-        return $this->getData('name');
+        return $this->getData(BannerInterface::NAME);
     }
 
     /**
@@ -34,7 +59,7 @@ class Banner extends \Magento\Banner\Model\Banner implements BannerInterface
      */
     public function getIsEnabled()
     {
-        return $this->getData('is_enabled');
+        return $this->getData(BannerInterface::IS_ENABLED);
     }
 
     /**
@@ -42,7 +67,7 @@ class Banner extends \Magento\Banner\Model\Banner implements BannerInterface
      */
     public function getIsGaEnabled()
     {
-        return $this->getData('is_ga_enabled');
+        return $this->getData(BannerInterface::IS_GA_ENABLED);
     }
 
     /**
@@ -50,7 +75,7 @@ class Banner extends \Magento\Banner\Model\Banner implements BannerInterface
      */
     public function getTypes()
     {
-        $types = $this->_getData('types');
+        $types = $this->_getData(BannerInterface::TYPES);
         if (is_array($types)) {
             return $types;
         }
@@ -59,7 +84,7 @@ class Banner extends \Magento\Banner\Model\Banner implements BannerInterface
         } else {
             $types = explode(',', $types);
         }
-        $this->setData('types', $types);
+        $this->setData(BannerInterface::TYPES, $types);
         return $types;
     }
 
@@ -68,7 +93,7 @@ class Banner extends \Magento\Banner\Model\Banner implements BannerInterface
      */
     public function getGaCreative()
     {
-        return $this->getData('ga_creative');
+        return $this->getData(BannerInterface::GA_CREATIVE);
     }
 
     /**
@@ -76,7 +101,7 @@ class Banner extends \Magento\Banner\Model\Banner implements BannerInterface
      */
     public function getCreatedIn()
     {
-        return $this->getData('created_in');
+        return $this->getData(BannerInterface::CREATED_IN);
     }
 
     /**
@@ -84,42 +109,63 @@ class Banner extends \Magento\Banner\Model\Banner implements BannerInterface
      */
     public function getUpdatedIn()
     {
-        return $this->getData('updated_in');
+        return $this->getData(BannerInterface::UPDATED_IN);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function setName($name)
     {
-        return $this->setData('name', $name);
+        return $this->setData(BannerInterface::NAME, $name);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function setIsEnabled($isEnabled)
     {
-        return $this->setData('is_enabled', $isEnabled);
+        return $this->setData(BannerInterface::IS_ENABLED, $isEnabled);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function setTypes($types)
     {
-        return $this->setData('types', $types);
+        return $this->setData(BannerInterface::TYPES, $types);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function setIsGaEnabled($isGaEnabled)
     {
-        return $this->setData('is_ga_enabled', $isGaEnabled);
+        return $this->setData(BannerInterface::IS_GA_ENABLED, $isGaEnabled);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function setGaCreative($gaCreative)
     {
-        return $this->setData('ga_creative', $gaCreative);
+        return $this->setData(BannerInterface::GA_CREATIVE, $gaCreative);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function setCreatedIn($createdIn)
     {
-        return $this->setData('created_in', $createdIn);
+        return $this->setData(BannerInterface::CREATED_IN, $createdIn);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function setUpdatedIn($updatedIn)
     {
-        return $this->setData('updated_in', $updatedIn);
+        return $this->setData(BannerInterface::UPDATED_IN, $updatedIn);
     }
 
     /**
@@ -127,7 +173,7 @@ class Banner extends \Magento\Banner\Model\Banner implements BannerInterface
      */
     public function setId($id)
     {
-        return $this->setData('banner_id', $id);
+        return $this->setData(BannerInterface::BANNER_ID, $id);
     }
 
     /**
@@ -137,16 +183,16 @@ class Banner extends \Magento\Banner\Model\Banner implements BannerInterface
      */
     public function getRowId()
     {
-        return $this->getData('row_id');
+        return $this->getData(BannerInterface::ROW_ID);
     }
 
     /**
-     * @param int
+     * @param int $rowId
      * @return $this
      */
     public function setRowId($rowId)
     {
-        return $this->setData('row_id', $rowId);
+        return $this->setData(BannerInterface::ROW_ID, $rowId);
     }
 
     /**
@@ -183,7 +229,7 @@ class Banner extends \Magento\Banner\Model\Banner implements BannerInterface
             $contents = $this->_getResource()->getStoreContents($this->getRowId());
             $this->setStoreContents($contents);
         }
-        return $this->_getData('store_contents');
+        return $this->_getData(BannerInterface::STORE_CONTENTS);
     }
 
     /**
@@ -196,10 +242,10 @@ class Banner extends \Magento\Banner\Model\Banner implements BannerInterface
         if (!$this->getRowId()) {
             return [];
         }
-        $array = $this->getData('related_sales_rule');
-        if (is_null($array)) {
+        $array = $this->getData(BannerInterface::RELATED_SALES_RULE);
+        if ($array === null) {
             $array = $this->getResource()->getRelatedSalesRule($this->getRowId());
-            $this->setData('related_sales_rule', $array);
+            $this->setData(BannerInterface::RELATED_SALES_RULE, $array);
         }
         return $array;
     }
@@ -214,11 +260,32 @@ class Banner extends \Magento\Banner\Model\Banner implements BannerInterface
         if (!$this->getRowId()) {
             return [];
         }
-        $array = $this->getData('related_catalog_rule');
-        if (is_null($array)) {
+        $array = $this->getData(BannerInterface::RELATED_CATALOG_RULE);
+        if ($array === null) {
             $array = $this->getResource()->getRelatedCatalogRule($this->getRowId());
-            $this->setData('related_catalog_rule', $array);
+            $this->setData(BannerInterface::RELATED_CATALOG_RULE, $array);
         }
         return $array;
+    }
+
+    /**
+     * @return $this
+     */
+    protected function _afterLoad()
+    {
+        $this->getStoreContents();
+
+        $segmentIds = $this->bannerSegmentLink->loadBannerSegments($this->getRowId());
+        $this->setData(BannerInterface::CUSTOMER_SEGMENT_IDS, $segmentIds);
+
+        if (!empty($this->getData(BannerInterface::TYPES))) {
+            $this->setData(BannerInterface::APPLIES_TO, 1);
+        }
+
+        if (!empty($this->getData(BannerInterface::CUSTOMER_SEGMENT_IDS))) {
+            $this->setData(BannerInterface::CUSTOMER_SEGMENTS, 1);
+        }
+
+        return parent::_afterLoad();
     }
 }

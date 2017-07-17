@@ -467,7 +467,7 @@
                         <item name="false" xsi:type="number">0</item>
                     </item>
                     <item name="default" xsi:type="number">0</item>
-                    <item name="label" xsi:type="string" translate="true">Discard subsequent rules</item>
+                    <item name="label" xsi:type="string" translate="true">Discard subsequent rules4</item>
                 </item>
             </argument>
         </field>

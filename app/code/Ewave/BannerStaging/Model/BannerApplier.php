@@ -1,8 +1,5 @@
 <?php
-/**
- * Copyright © 2013-2017 Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Ewave\BannerStaging\Model;
 
 use Magento\Framework\Indexer\CacheContext;
@@ -13,8 +10,10 @@ use Magento\Staging\Model\StagingApplierInterface;
  */
 class BannerApplier implements StagingApplierInterface
 {
-    /** @var CacheContext */
-    private $cacheContext;
+    /**
+     * @var CacheContext
+     */
+    protected $cacheContext;
 
     /**
      * BannerApplier constructor
@@ -28,6 +27,7 @@ class BannerApplier implements StagingApplierInterface
 
     /**
      * @param array $entityIds
+     * @return void
      */
     public function execute(array $entityIds)
     {

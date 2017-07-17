@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<integrations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:ewave:module:Ewave_AI:etc/ewave_integrations.xsd">
+    <integration name="general_ledger_export">
+        <integration_name>General Ledger Export</integration_name>
+        <processor_class>Ewave\DynamicsCrvIntegration\Model\GlExport</processor_class>
+        <chain_proccessor_code></chain_proccessor_code>
+        <can_admin_run>1</can_admin_run>
+        <state>1</state>
+        <cron_time>*</cron_time>
+    </integration>
+    <integration name="payment_transactions">
+        <integration_name>Payment Transactions</integration_name>
+        <processor_class>Ewave\DynamicsCrvIntegration\Model\PaymentsExport</processor_class>
+        <chain_proccessor_code></chain_proccessor_code>
+        <can_admin_run>1</can_admin_run>
+        <state>1</state>
+        <cron_time>*</cron_time>
+    </integration>
+</integrations>

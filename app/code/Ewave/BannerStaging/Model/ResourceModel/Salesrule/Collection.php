@@ -1,10 +1,5 @@
 <?php
 /**
- * Copyright © 2013-2017 Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
-
-/**
  * Collection of banner <-> sales rule associations
  */
 namespace Ewave\BannerStaging\Model\ResourceModel\Salesrule;
@@ -35,7 +30,7 @@ class Collection extends \Magento\Banner\Model\ResourceModel\Salesrule\Collectio
     /**
      * Filter out disabled banners
      *
-     * @return $this2
+     * @return $this
      */
     protected function _initSelect()
     {

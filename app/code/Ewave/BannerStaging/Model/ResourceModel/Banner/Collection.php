@@ -1,14 +1,4 @@
 <?php
-/**
- * Copyright © 2013-2017 Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
-
-/**
- * Banner Resource Collection
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Ewave\BannerStaging\Model\ResourceModel\Banner;
 
 class Collection extends \Magento\Banner\Model\ResourceModel\Banner\Collection

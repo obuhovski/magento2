@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-/**
- * Copyright © 2013-2017 Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
--->
 <listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
     <argument name="data" xsi:type="array">
         <item name="js_config" xsi:type="array">
@@ -15,7 +9,7 @@
     </argument>
     <dataSource name="staging_update_edit_banner_grid_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">Ewave\BannerStaging\Model\Banner\DataProvider</argument>
+            <argument name="class" xsi:type="string">Ewave\BannerStaging\Ui\Component\DataProvider\DataProvider</argument>
             <argument name="name" xsi:type="string">staging_update_edit_banner_grid_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">banner_id</argument>
             <argument name="requestFieldName" xsi:type="string">banner_id</argument>
@@ -42,7 +36,21 @@
                 </item>
             </argument>
         </column>
-        <actionsColumn name="actions" class="stagingCmsBlockDashboardGridActions">
+        <column name="name">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Name</item>
+                </item>
+            </argument>
+        </column>
+        <column name="types">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">types</item>
+                </item>
+            </argument>
+        </column>
+        <actionsColumn name="actions" class="stagingBannerDashboardGridActions">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="indexField" xsi:type="string">banner_id</item>

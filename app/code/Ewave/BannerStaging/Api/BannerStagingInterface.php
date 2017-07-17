@@ -1,5 +1,7 @@
 <?php
+
 namespace Ewave\BannerStaging\Api;
+
 use Ewave\BannerStaging\Api\Data\BannerInterface;
 
 /**

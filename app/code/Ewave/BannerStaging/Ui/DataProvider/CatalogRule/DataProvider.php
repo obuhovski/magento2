@@ -2,9 +2,9 @@
 
 namespace Ewave\BannerStaging\Ui\DataProvider\CatalogRule;
 
+use Ewave\BannerStaging\Api\BannerRepositoryInterface;
 use Magento\CatalogRule\Model\ResourceModel\Rule\CollectionFactory;
 use Magento\Framework\App\RequestInterface;
-use Ewave\BannerStaging\Model\BannerFactory;
 
 class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
 {
@@ -14,9 +14,9 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
     protected $request;
 
     /**
-     * @var BannerFactory
+     * @var BannerRepositoryInterface
      */
-    private $bannerFactory;
+    protected $bannerRepository;
 
     /**
      * @param string $name
@@ -24,9 +24,10 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
      * @param string $requestFieldName
      * @param CollectionFactory $collectionFactory
      * @param RequestInterface $request
-     * @param BannerFactory $bannerFactory
+     * @param BannerRepositoryInterface $bannerRepository
      * @param array $meta
      * @param array $data
+     * @internal param BannerFactory $bannerFactory
      * @internal param RuleFactory $salesRuleFactory
      * @internal param BannerFactory $bannerFactory
      */
@@ -36,14 +37,14 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         $requestFieldName,
         CollectionFactory $collectionFactory,
         RequestInterface $request,
-        BannerFactory $bannerFactory,
+        BannerRepositoryInterface $bannerRepository,
         array $meta = [],
         array $data = []
     ) {
         parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
         $this->request = $request;
         $this->collection = $collectionFactory->create();
-        $this->bannerFactory = $bannerFactory;
+        $this->bannerRepository = $bannerRepository;
     }
 
     /**
@@ -51,11 +52,13 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
      */
     public function getData()
     {
-        if ($id = (int) $this->request->getParam('id')) {
-            $banner = $this->bannerFactory->create();
-            $banner->load($id);
-            return $this->getCollection()->addFieldToFilter('main_table.row_id', ['in' => $banner->getRelatedCatalogRule()])->toArray();
+        $selectedRules = [];
+        if ($id = (int) $this->request->getParam('banner_id')) {
+            $banner = $this->bannerRepository->getById($id);
+            $selectedRules = $this->getCollection()
+                ->addFieldToFilter('main_table.row_id', ['in' => $banner->getRelatedCatalogRule()])
+                ->toArray();
         }
-        return parent::getData();
+        return $selectedRules;
     }
 }

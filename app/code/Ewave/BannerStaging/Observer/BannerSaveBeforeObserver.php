@@ -1,7 +1,7 @@
 <?php
 namespace Ewave\BannerStaging\Observer;
 
-use Ewave\BannerStaging\Model\Banner;
+use Ewave\BannerStaging\Api\Data\BannerInterface;
 use Magento\Framework\Event\ObserverInterface;
 
 class BannerSaveBeforeObserver implements ObserverInterface
@@ -12,7 +12,7 @@ class BannerSaveBeforeObserver implements ObserverInterface
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
-        /** @var Banner $entity */
+        /** @var BannerInterface $entity */
         $entity = $observer->getEvent()->getEntity();
         $entity->beforeSave();
         $types = $entity->getTypes();

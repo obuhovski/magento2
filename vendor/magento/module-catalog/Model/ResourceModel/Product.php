@@ -656,6 +656,7 @@ class Product extends AbstractResource
         return $this;
     }
 
+
     /**
      * {@inheritdoc}
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)

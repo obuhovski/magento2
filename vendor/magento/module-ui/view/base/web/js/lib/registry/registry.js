@@ -224,6 +224,10 @@ define([
             this._addRequest(query, callback);
         },
 
+        getAll: function (query, callback) {
+            return getItems(this);
+        },
+
         /**
          * Sets provided item to the registry.
          *

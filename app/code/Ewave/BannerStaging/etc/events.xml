@@ -3,12 +3,6 @@
     <event name="ewave_bannerstaging_api_data_bannerinterface_save_before">
         <observer name="save_relations" instance="Ewave\BannerStaging\Observer\BannerSaveBeforeObserver" />
     </event>
-    <event name="ewave_bannerstaging_api_data_bannerinterface_save_after">
-        <observer name="save_relations" instance="Ewave\BannerStaging\Observer\BannerSaveAfterObserver" />
-    </event>
-    <event name="ewave_bannerstaging_api_data_bannerinterface_load_after">
-        <observer name="save_relations" instance="Ewave\BannerStaging\Observer\BannerLoadAfterObserver" />
-    </event>
     <event name="magento_banner_load_after">
         <observer name="magento_bannercustomersegment" disabled="true" />
     </event>

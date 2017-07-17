@@ -16,31 +16,32 @@ class Banner extends \Magento\Banner\Model\ResourceModel\Banner
     /**
      * @var EntityManager
      */
-    private $entityManager;
+    protected $entityManager;
 
     /**
      * @var \Magento\Banner\Model\ResourceModel\Salesrule\CollectionFactory
      */
-    private $salesruleColFactory;
+    protected $salesruleColFactory;
 
     /**
      * @var \Magento\Banner\Model\ResourceModel\Catalogrule\CollectionFactory
      */
-    private $catRuleColFactory;
+    protected $catRuleColFactory;
 
     /**
      * @var \Magento\Banner\Model\Config
      */
-    private $bannerConfig;
+    protected $bannerConfig;
 
     /**
      * @var \Magento\Framework\Event\ManagerInterface
      */
-    private $eventManager;
+    protected $eventManager;
+
     /**
      * @var MetadataPool
      */
-    private $metadataPool;
+    protected $metadataPool;
 
     /**
      * Banner constructor.
@@ -62,8 +63,7 @@ class Banner extends \Magento\Banner\Model\ResourceModel\Banner
         EntityManager $entityManager,
         MetadataPool $metadataPool,
         $connectionName = null
-    )
-    {
+    ) {
         parent::__construct($context, $eventManager, $bannerConfig, $salesruleColFactory, $catRuleColFactory);
         $this->entityManager = $entityManager;
         $this->salesruleColFactory = $salesruleColFactory;
@@ -85,10 +85,7 @@ class Banner extends \Magento\Banner\Model\ResourceModel\Banner
         }
         try {
             if ($object->isSaveAllowed()) {
-//                $object->beforeSave();
-//                $this->_beforeSave($object);
                 $this->entityManager->save($object);
-//                $this->processAfterSaves($object);
             }
         } catch (\Exception $e) {
             throw $e;
@@ -339,12 +336,17 @@ class Banner extends \Magento\Banner\Model\ResourceModel\Banner
     {
         $connection = $this->getConnection();
         $select = $connection->select()->from(
-            $this->_catalogRuleTable,
-            ['row_id']
+            ['cr' => $this->_catalogRuleTable],
+            ['mb.banner_id']
+        )->join(
+            ['mb' => 'magento_banner'],
+            'mb.row_id = cr.row_id',
+            ['mb.banner_id']
         )->where(
-            'rule_id = ?',
+            'cr.rule_id = ?',
             $ruleId
         );
+
         return $connection->fetchCol($select);
     }
 
@@ -357,7 +359,14 @@ class Banner extends \Magento\Banner\Model\ResourceModel\Banner
     public function getRelatedBannersBySalesRuleId($ruleId)
     {
         $connection = $this->getConnection();
-        $select = $connection->select()->from($this->_salesRuleTable, ['row_id'])->where('rule_id = ?', $ruleId);
+        $select = $connection->select()
+            ->from(['sr' => $this->_salesRuleTable], ['mb.banner_id'])
+            ->join(
+                ['mb' => 'magento_banner'],
+                'mb.row_id = sr.row_id',
+                ['mb.banner_id']
+            )
+            ->where('sr.rule_id = ?', $ruleId);
         return $connection->fetchCol($select);
     }
 
@@ -371,21 +380,29 @@ class Banner extends \Magento\Banner\Model\ResourceModel\Banner
     public function bindBannersToCatalogRule($ruleId, $banners)
     {
         $connection = $this->getConnection();
-        foreach ($banners as $bannerId) {
+        $select = $connection->select()->from([
+            'magento_banner',
+            ['row_id']
+        ])->where(
+            'banner_id IN (?)',
+            $banners
+        );
+        $rowIds = $connection->fetchCol($select);
+        foreach ($rowIds as $rowId) {
             $connection->insertOnDuplicate(
                 $this->_catalogRuleTable,
-                ['row_id' => $bannerId, 'rule_id' => $ruleId],
+                ['row_id' => $rowId, 'rule_id' => $ruleId],
                 ['rule_id']
             );
         }
 
-        if (empty($banners)) {
-            $banners = [0];
+        if (empty($rowIds)) {
+            $rowIds = [0];
         }
 
         $connection->delete(
             $this->_catalogRuleTable,
-            ['rule_id = ?' => $ruleId, 'row_id NOT IN (?)' => $banners]
+            ['rule_id = ?' => $ruleId, 'row_id NOT IN (?)' => $rowIds]
         );
         return $this;
     }
@@ -400,19 +417,29 @@ class Banner extends \Magento\Banner\Model\ResourceModel\Banner
     public function bindBannersToSalesRule($ruleId, $banners)
     {
         $connection = $this->getConnection();
-        foreach ($banners as $bannerId) {
+        $select = $connection->select()->from([
+            'magento_banner',
+            ['row_id']
+        ])->where(
+            'banner_id IN (?)',
+            $banners
+        );
+        $rowIds = $connection->fetchCol($select);
+
+        $connection = $this->getConnection();
+        foreach ($rowIds as $rowId) {
             $connection->insertOnDuplicate(
                 $this->_salesRuleTable,
-                ['row_id' => $bannerId, 'rule_id' => $ruleId],
+                ['row_id' => $rowId, 'rule_id' => $ruleId],
                 ['rule_id']
             );
         }
 
-        if (empty($banners)) {
-            $banners = [0];
+        if (empty($rowIds)) {
+            $rowIds = [0];
         }
 
-        $connection->delete($this->_salesRuleTable, ['rule_id = ?' => $ruleId, 'row_id NOT IN (?)' => $banners]);
+        $connection->delete($this->_salesRuleTable, ['rule_id = ?' => $ruleId, 'row_id NOT IN (?)' => $rowIds]);
         return $this;
     }
 
@@ -496,10 +523,9 @@ class Banner extends \Magento\Banner\Model\ResourceModel\Banner
         return $this;
     }
 
-
     /**
      * @param AbstractModel $object
-     * @param $value
+     * @param mixed $value
      * @param null $field
      * @return bool
      */
@@ -520,5 +546,4 @@ class Banner extends \Magento\Banner\Model\ResourceModel\Banner
         }
         return $entityId;
     }
-
 }

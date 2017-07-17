@@ -1,10 +1,11 @@
 <?php
 namespace Ewave\BannerStaging\Model\Banner;
 
+use Ewave\BannerStaging\Model\Banner;
 use Magento\Framework\App\Request\DataPersistorInterface;
+use Magento\Framework\App\RequestInterface;
 use Magento\Staging\Model\Entity\DataProvider\MetadataProvider;
 use Magento\Banner\Model\ResourceModel\Banner\CollectionFactory;
-
 
 /**
  * Class DataProvider
@@ -16,7 +17,6 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
      */
     private $dataPersistor;
 
-
     /**
      * @param string $name
      * @param string $primaryFieldName
@@ -24,6 +24,7 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
      * @param CollectionFactory $bannerCollectionFactory
      * @param DataPersistorInterface $dataPersistor
      * @param MetadataProvider $metadataProvider
+     * @param RequestInterface $request
      * @param array $meta
      * @param array $data
      */
@@ -34,9 +35,11 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         CollectionFactory $bannerCollectionFactory,
         DataPersistorInterface $dataPersistor,
         MetadataProvider $metadataProvider,
+        RequestInterface $request,
         array $meta = [],
         array $data = []
     ) {
+        $requestFieldName = $request->getParam('id') ? 'id' : 'banner_id';
         $meta = array_replace_recursive($meta, $metadataProvider->getMetadata());
         parent::__construct(
             $name,
@@ -61,7 +64,9 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         }
         $items = $this->collection->getItems();
 
+        /** @var Banner $banner */
         foreach ($items as $banner) {
+            $banner->afterLoad();
             $this->loadedData[$banner->getId()] = $banner->getData();
         }
 

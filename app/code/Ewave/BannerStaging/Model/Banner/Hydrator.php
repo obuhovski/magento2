@@ -19,7 +19,7 @@ class Hydrator implements HydratorInterface
     /**
      * @var MetadataPool
      */
-    private $metadataPool;
+    protected $metadataPool;
 
     /**
      * @var RetrieverInterface
