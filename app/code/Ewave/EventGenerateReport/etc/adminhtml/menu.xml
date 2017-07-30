@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magento_Reports::report_club" title="Clubs and Events" translate="title" module="Magento_Reports" sortOrder="40" parent="Magento_Reports::report" resource="Ewave_EventGenerateReport::club"/>
+        <add id="Magento_Reports::report_club_event" title="Events" translate="title" module="Magento_Reports" sortOrder="10" parent="Magento_Reports::report_club" action="reports/report_club/event" resource="Ewave_EventGenerateReport::club_event"/>
+    </menu>
+</config>
